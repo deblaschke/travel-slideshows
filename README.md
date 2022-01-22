@@ -40,7 +40,15 @@ The following slideshow attibutes can be customized:
       NOTE: This can be overridden on the URL through use of the interval query
       parameter, for example "?interval=1000"
 
-   3) Dimensions
+   3) Range
+
+      The beginning and/or ending picture can be set on the URL through use of
+      the from/to query parameters, for example "?from=10&to=25" will display
+      only pictures 010_* through 025_*
+
+      NOTE: This is not intended for use with compilations
+
+   4) Dimensions
 
       In css/slideshow.css, change width and height (default 640 pixels) to
       desired value, which should be square for best appearance
