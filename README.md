@@ -48,11 +48,3 @@ The following slideshow attibutes can be customized:
 
       NOTE: This is not intended for use with compilations
 
-   4) Dimensions
-
-      In css/slideshow.css, change width and height (default 640 pixels) to
-      desired value, which should be square for best appearance
-
-      NOTE: Pictures are sized to 640 pixels along biggest dimension, so
-      increasing this value can lead to pixelization
-
