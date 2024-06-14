@@ -1,0 +1,132 @@
+body {
+  background-image: url("../images/background.jpg");
+  background-color: #FFFFFF;
+  color: #000000;
+  margin: auto;
+  max-width: max-content;
+}
+
+hr {
+  background-image: url("../images/horzrule.gif");
+  border: 0;
+  height: 15px;
+  width: 100%;
+  background-size: cover;
+}
+
+img {
+  border: 0;
+}
+
+#outerTable {
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  padding: 5px;
+  border-spacing: 5px;
+  width: 60%;
+}
+
+#outerTable tr {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.header-txt {
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 5px 5px 5px rgba(68, 68, 68, 0.5);
+}
+
+#innerTable {
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  padding: 10px;
+  border-spacing: 10px;
+}
+
+.menu-item:hover {
+  transform: scale(1.10);
+  z-index: 1;
+}
+
+.menu-item a {
+  display: block;
+  text-decoration: none;
+  color: #000000;
+  width: 100%;
+  height: 100%;
+}
+
+.menu-item-img {
+  vertical-align: top;
+}
+
+.menu-item-img-desc {
+  display: block;
+  font-size: x-small;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.menu-item-txt:hover {
+  cursor: default;
+}
+
+.menu-item-txt, .menu-item-txt-static {
+  text-align: left;
+  vertical-align: top;
+}
+
+.menu-item-txt-trip {
+  font-size: large;
+  font-weight: bold;
+  text-shadow: 3px 3px 3px rgba(68, 68, 68, 0.5);
+}
+
+.menu-item-txt-travel {
+  font-size: small;
+  font-weight: bold;
+}
+
+.menu-item-txt-date {
+  font-size: small;
+  font-weight: bold;
+}
+
+.menu-item-txt-pics {
+  font-size: small;
+}
+
+.menu-item-txt-size {
+  font-size: small;
+}
+
+.menu-item-txt-hilite {
+  font-size: small;
+  font-style: italic;
+}
+
+.menu-item-txt-camera {
+  font-size: small;
+  font-style: italic;
+}
+
+.hrTable {
+  width: 100%;
+}
+
+.hrTd {
+  width: 45%;
+}
+
+.compilations-hdr {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.updates-txt {
+  font-size: x-small;
+  font-style: italic;
+}
