@@ -100,6 +100,7 @@ img {
 }
 
 .menu-item-txt-size {
+/*display: none;*/
   font-size: small;
 }
 
@@ -124,6 +125,15 @@ img {
 .compilations-hdr {
   font-size: x-large;
   font-weight: bold;
+}
+
+.notes-hdr {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+li {
+  text-align: left;
 }
 
 .updates-txt {
