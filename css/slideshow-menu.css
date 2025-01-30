@@ -125,6 +125,7 @@ img {
 .compilations-hdr {
   font-size: x-large;
   font-weight: bold;
+  text-shadow: 5px 5px 5px rgba(68, 68, 68, 0.5);
 }
 
 .notes-hdr {
