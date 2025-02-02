@@ -131,6 +131,7 @@ img {
 .notes-hdr {
   font-size: x-large;
   font-weight: bold;
+  text-shadow: 4px 4px 4px rgba(68, 68, 68, 0.5);
 }
 
 li {
