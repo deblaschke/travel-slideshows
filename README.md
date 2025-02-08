@@ -4,15 +4,15 @@ TRAVEL PICTURE SLIDESHOWS README
 
 To view the slideshows, go to https://deblaschke.github.io/travel-slideshows/
 in your favorite browser and select the slideshow of interest by clicking on
-its thumbnail or description (both will enlarge when selectable).  The slideshow
-will open in a new tab/window.  When the slideshow is complete (there are two
-standard closing credit slides at the end) or you've had too much, close the
-tab/window.
+its thumbnail, which will enlarge when selectable.  The slideshow will open in
+a new tab/window.  When the slideshow is complete (there are two standard closing
+credit slides at the end) or you've had too much, close the tab/window.
 
 Automatic slideshows have three control buttons below the pictures: previous
 slide, pause/play, and next slide.  Manual slideshows only have the previous
-slide and next slide buttons.  The left arrow (previous slide) and right arrow
-(next slide) keys can be used in lieu of the control buttons.
+slide and next slide buttons.  The left arrow (previous slide), right arrow
+(next slide), and escape (pause/play) keys can be used in lieu of the control
+buttons.
 
 The slideshows have been tested on the following browsers:
    - Firefox on Windows and macOS
