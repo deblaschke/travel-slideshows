@@ -1,0 +1,56 @@
+body {
+  background-image: url("../images/background.jpg");
+  background-color: #FFFFFF;
+  color: #000000;
+  margin: auto;
+  max-width: max-content;
+}
+
+#outerTable td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 5px;
+}
+
+#slideTitle {
+  font-size: x-large;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: block;
+  text-wrap: wrap;
+  text-shadow: 4px 4px 4px rgba(68, 68, 68, 0.5);
+}
+
+#innerTable td {
+  text-align: center;
+  vertical-align: middle;
+/*width: 674px; Now calculated dynamically to simulate responsiveness
+  height: 674px;*/
+  border-style: groove;
+  border-width: 3px;
+  box-shadow: 4px 4px 4px rgba(68, 68, 68, 0.5);
+  background-color: #000000;
+}
+
+img.tripPix {
+  display: block;
+  margin: auto;
+}
+
+button {
+  font-family: Arial;
+  vertical-align: top;
+  width: 2em;
+  height: 2em;
+  box-shadow: 3px 3px 3px rgba(68, 68, 68, 0.5);
+}
+
+#slideName {
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  display: block;
+  text-wrap: wrap;
+  text-shadow: 3px 3px 3px rgba(68, 68, 68, 0.5);
+}

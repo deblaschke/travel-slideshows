@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <base href="..">
+    <title>Travel Slideshows Search</title>
+    <link rel="stylesheet" href="css/slideshow.css">
+    <script src="js/slideshow.js"></script>
+    <script src="js/description_trip.js"></script>
+    <script src="SEARCH/all_slides.js"></script>
+    <style media="screen">
+      input, select {
+        font-family: Arial;
+        vertical-align: middle;
+        height: 1.6em;
+        box-sizing: content-box;
+        box-shadow: 3px 3px 3px rgba(68, 68, 68, 0.5);
+      }
+
+      #searchBar {
+        font-size: small;
+        vertical-align: middle;
+      }
+
+      #slideContent {
+        color: #D2B48C;
+        font-size: 2em;
+        font-weight: bold;
+      }
+    </style>
+    <script>
+      // Maximum allowed search results
+      const MAXIMUM_SEARCH_RESULT = 1500;
+
+      const SLIDESHOW_REGION_EAST = [
+              "1991Trip",
+              "1991FallFoliage",
+              "1992Trip",
+              "1992FallFoliage",
+              "1998Trip",
+              "1999Trip",
+              "2002Trip",
+              "2004Trip",
+              "2006Trip",
+              "2008Trip",
+              "2010Wisconsin",
+              "2012Trip",
+              "2013-14Florida",
+              "2014WashDC",
+              "2016WashDC",
+              "2016Trip",
+              "2018Trip",
+              "2018-19Florida",
+              "2020Trip",
+              "2022Trip",
+              "2023SanAntonio",
+      ];
+      const SLIDESHOW_REGION_ROCK = [
+              "1990Colorado",
+              "1995Trip",
+              "1998Colorado",
+              "2005Trip",
+              "2007Colorado",
+              "2009Trip",
+              "2011Trip",
+              "2014Trip",
+              "2015Trip",
+              "2015NewMexico",
+              "2017Trip",
+              "2018Colorado",
+              "2019Trip",
+              "2021Colorado",
+              "2022Colorado",
+              "2023Trip",
+      ];
+      const SLIDESHOW_REGION_WEST = [
+              "1988Trip",
+              "1990Trip",
+              "1992OS2Trip",
+              "1993Trip",
+              "1993Homecoming",
+              "1996-97RoseParade",
+              "1998Homecoming",
+              "2001Trip",
+              "2007Trip",
+              "2010Trip",
+              "2013Trip",
+              "2014-15Arizona",
+              "2016Alaska",
+              "2021Trip",
+              "2024LosAngeles",
+              "2024-25Trip",
+      ];
+
+      // getSearchError returns user error, which is base[+text][+state]
+      function getSearchError(base, state, text) {
+        let msg = base;
+        if (text != null)
+          msg = msg + " for text=\"" + text + "\"";
+        if (state != null)
+          msg = msg + " in state=\"" + state + "\"";
+        return msg;
+      }
+
+      // slideshowSearch runs slideshow based on filterd search results
+      function slideshowSearch() {
+        // Start with all available slides
+        let filtered_slides = all_slides;
+
+        // Filter slides based on state, if one provided
+        let state = null;
+        let inputState = document.getElementById("inputState");
+        if (inputState != null) {
+          state = inputState.value;
+          if (state != null && state.length > 0) {
+            filtered_slides = filtered_slides.filter(slide => slide.state == state);
+          } else {
+            state = null;
+          }
+        }
+
+        // Filter slides based on text, if one provided ('!' as first character indicates negative search)
+        let text = null;
+        let invalidText = false;
+        let inputText = document.getElementById("inputText");
+        if (inputText != null) {
+          text = inputText.value;
+          if (text != null && text.trim().length > 0) {
+             let cleanText = text.trim();
+
+             // Valid characters are initial '!', letters, digits and whitespace
+             if (!cleanText.match(/^!?[0-9A-Za-z\s]+$/)) {
+               invalidText = true;
+             } else {
+               // File names have underscores instead of spaces
+               cleanText = cleanText.replace(/\s+/g, '_');
+               if (cleanText.charAt(0) == '!' && cleanText.length > 1) {
+                 filtered_slides = filtered_slides.filter(slide => !slide.file.toLowerCase().includes(cleanText.substr(1).toLowerCase()));
+               } else {
+                 filtered_slides = filtered_slides.filter(slide => slide.file.toLowerCase().includes(cleanText.toLowerCase()));
+               }
+             }
+          } else {
+            text = null;
+          }
+        }
+
+        // Invalid search text, issue error
+        if (invalidText) {
+          alert("Invalid character in text=\"" + text + "\"");
+        }
+
+        // No search criteria, issue error
+        else if (state == null && text == null) {
+          alert(getSearchError("No search criteria", state, text));
+        }
+
+        // No search results, issue error
+        else if (filtered_slides.length == 0) {
+          alert(getSearchError("No search results", state, text));
+        }
+
+        // Too many search results, issue error
+        else if (filtered_slides.length > MAXIMUM_SEARCH_RESULT) {
+          alert(getSearchError("Too many search results (" + filtered_slides.length + ")", state, text));
+        }
+
+        // Search results just right, start slideshow
+        else {
+          const targetElement = document.getElementById('slideContent');
+
+          // Clear out any existing slides in slideshow
+          while (targetElement.firstChild) {
+            targetElement.removeChild(targetElement.lastChild);
+          }
+
+          // Add title to slideshow
+          let imgElem = document.createElement('img');
+          imgElem.src = "SEARCH/title.jpg";
+          imgElem.alt = "Title";
+          imgElem.className = "tripPix";
+          imgElem.style = "width:95%;height:71%;";
+          targetElement.appendChild(imgElem);
+
+          // Add matching slides to slideshow
+          filtered_slides.forEach(function(slide) {
+            let region = "";
+            if (SLIDESHOW_REGION_EAST.includes(slide.dir)) {
+              region = "https://deblaschke.github.io/travel-slideshows-east";
+            } else if (SLIDESHOW_REGION_ROCK.includes(slide.dir)) {
+              region = "https://deblaschke.github.io/travel-slideshows-rockies";
+            } else if (SLIDESHOW_REGION_WEST.includes(slide.dir)) {
+              region = "https://deblaschke.github.io/travel-slideshows-west";
+            }
+
+            imgElem = document.createElement('img');
+            imgElem.src = region + "/" + slide.dir + "/" + slide.file + ".jpg";
+            imgElem.alt = 'Slide';
+            imgElem.className = 'tripPix';
+            imgElem.style = slide.style;
+            targetElement.appendChild(imgElem);
+          });
+
+          // Add credits to slideshow
+          imgElem = document.createElement('img');
+          imgElem.src = "images/theend1.jpg";
+          imgElem.alt = "Credit";
+          imgElem.className = "tripPix";
+          imgElem.style = "width:95%;height:71%;";
+          targetElement.appendChild(imgElem);
+          imgElem = document.createElement('img');
+          imgElem.src = "images/theend2.jpg";
+          imgElem.alt = "Credit";
+          imgElem.className = "tripPix";
+          imgElem.style = "width:95%;height:71%;";
+          targetElement.appendChild(imgElem);
+          if (SLIDESHOW_AUDIO) {
+            imgElem = document.createElement('img');
+            imgElem.src = "images/theend3.jpg";
+            imgElem.alt = "Credit";
+            imgElem.className = "tripPix";
+            imgElem.style = "width:95%;height:71%;";
+            targetElement.appendChild(imgElem);
+          }
+
+          // Set number of slides in search results
+          document.getElementById("searchResults").innerHTML = "&nbsp;<b>(" + filtered_slides.length + "/" + all_slides.length + " photos)</b>";
+
+          // Initiate slideshow
+          slideIndex = 0;
+          if (MANUAL_SLIDESHOW) {
+            hidePlayButton();
+            showPic(1);
+          } else {
+            slideshow();
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    </table>
+    <table id="outerTable">
+      <tr>
+        <td>
+          <span id="slideTitle">Travel Slideshows Search</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span id="searchBar">
+            <input type="text" id="inputText" placeholder="Enter text">
+            <select id="inputState">
+              <option value="">Select state</option>
+              <option value=""></option>
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DC">District of Columbia</option>
+              <option value="FL">Florida</option>
+              <option value="GA">Georgia</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada</option>
+              <option value="NH">New Hampshire</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklaohma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota</option>
+              <option value="TN">Tennessee</option>
+              <option value="TX">Texas</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="WA">Washington</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+              <option disabled>Canada</option>
+              <option value="AB">Alberta</option>
+              <option value="BC">British Columbia</option>
+              <option value="ON">Ontario</option>
+            </select>
+            <button onclick="slideshowSearch()">&#x1F50D;</button>
+            <span id="searchResults"></span>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table id="innerTable"><tr><td>
+            <span id="slideContent">
+              Please enter text and/or select state above, then click search button
+            </span>
+          </td></tr></table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button onclick="changePic(-1)" id="buttonPrev" title="Previous slide"><b>&#10094;</b></button>
+          <button onclick="toggleFlow(this)" id="buttonPlayPause" title="Pause">&#10074;&#10074;</button>
+          <button onclick="changePic(1)" id="buttonNext" title="Next slide"><b>&#10095;</b></button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span id="slideName">&nbsp;</span>
+        </td>
+      </tr>
+    </table>
+    <script>
+      // Initialize search results
+      document.getElementById("searchResults").innerHTML = "&nbsp;<b>(?/" + all_slides.length + " photos)</b>";
+    </script>
+  </body>
+</html>
