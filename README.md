@@ -14,6 +14,11 @@ slide and next slide buttons.  The left arrow (previous slide), right arrow
 (next slide), and escape (pause/play) keys can be used in lieu of the control
 buttons.
 
+A rudimentary search capability was added on May 17, 2025.  With it, you can
+search for slides by subject (search text) and/or state.  An exclamation mark (!)
+as the first character in the search text indicates negation, i.e. matches all
+subjects NOT containing the search text.
+
 The slideshows have been tested on the following browsers:
    - Firefox on Windows and macOS
    - Chrome on Windows, macOS and Android (NOTE: Not responsive on mobile devices)

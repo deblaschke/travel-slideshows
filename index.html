@@ -5,6 +5,70 @@
     <base href=".">
     <title>Travel Slideshows</title>
     <link rel="stylesheet" href="css/slideshow-menu.css">
+    <style media="screen">
+      .menu-item-txt-trip { /* override slideshow-menu */
+        font-size: large;
+        font-weight: bold;
+        text-shadow: 3px 3px 3px rgba(68, 68, 68, 0.5);
+        display: inline-block;
+        width: 520px;
+      }
+      .menu-item-txt-hilite { /* override slideshow-menu */
+        font-size: small;
+        font-style: italic;
+        display: inline-block;
+        width: 520px;
+      }
+      .section-hdr, .section-hdr-arrow {
+        font-size: x-large;
+        font-weight: bold;
+        text-shadow: 4px 4px 4px rgba(68, 68, 68, 0.5);
+      }
+      .section-hdr-arrow-transparent {
+        font-size: x-large;
+        font-weight: bold;
+      }
+      .section-hdr-arrow:hover {
+        transform: scale(1.25);
+        z-index: 1;
+        cursor: pointer;
+      }
+    </style>
+    <script>
+      // Keeps track of HTML element and display state
+      let mapSections = new Map([
+        [ "1980s", { "elem" : null, "display" : "none" } ], // initially collapsed
+        [ "1990s", { "elem" : null, "display" : "none" } ], // initially collapsed
+        [ "2000s", { "elem" : null, "display" : "none" } ], // initially collapsed
+        [ "2010s", { "elem" : null, "display" : "none" } ], // initially collapsed
+        [ "2020s", { "elem" : null, "display" : "none" } ]  // initially collapsed
+      ]);
+
+      // setSectionDisplay shows/hides all slideshows in section based on mapObj contents
+      function setSectionDisplay(elem, section, mapObj) {
+        // Show/hide all slideshows in section
+        let sectionElems = document.getElementsByClassName(section);
+        for (let i = 0; i < sectionElems.length; i++) {
+          sectionElems[i].style.display = mapObj.display;
+        }
+
+        if (!mapObj.elem) {
+          mapObj.elem = elem;
+        }
+
+        // Set section header (include down arrow for collapsed, up arrow for expanded) if available
+        if (mapObj.elem) {
+          mapObj.elem.innerHTML = "&nbsp;" + (mapObj.display == "none" ? "&#9660;" : "&#9650;");
+        }
+      }
+
+      // toggleSectionDisplay toggles display for specified section
+      function toggleSectionDisplay(elem, section) {
+        const mapObj = mapSections.get(section);
+        mapObj.display = mapObj.display == "none" ? "" : "none";
+        setSectionDisplay(elem, section, mapObj);
+      }
+    </script>
   </head>
 
   <body>
@@ -20,12 +84,14 @@
       <tr>
         <td colspan="3">
           <p style="text-align:left;">
+            Travels are grouped together by decade, and these sections can be expanded (&#9660;)
+            or collapsed (&#9650;) by clicking on the arrow in the decade header.
             To view a slideshow, click on its thumbnail (picture) and it will open
             in a new window/tab.
             Details of a particular trip are shown to the right of its thumbnail.
             Slideshows can also be narrowed down by <a href="REGIONS/">geographical region</a>,
             selected by <a href="STATES/">individual state</a>,
-            or chosen through a personalized <a href="SEARCH/">search</a>.
+            or filtered through a <a href="SEARCH/" target="_blank">search</a>.
           </p>
 
 <!--      <p style="text-align:left;">
@@ -63,7 +129,20 @@
       <tr>
         <td colspan="3">
           <table id="innerTable">
-            <tr class="menu-item">
+            <tr>
+              <td colspan="2">
+                <table class="hrTable-selectable">
+                  <tr>
+                    <td class="section-hdr-arrow" onclick="toggleSectionDisplay(this, '1980s')">&nbsp;&#9660;</td>
+                    <td class="hrTd"><hr></td>
+                    <td><span class="section-hdr">&nbsp;&nbsp;&nbsp;1980s&nbsp;&nbsp;&nbsp;</span></td>
+                    <td class="hrTd"><hr></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr class="menu-item 1980s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/1988Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/1988Trip/cover.jpg" width="200" height="133" alt="1988 Spring Break"><br>
                 <span class="menu-item-img-desc">Havasu Falls</span>
@@ -81,7 +160,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1980s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-overseas/1989Honeymoon/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-overseas/1989Honeymoon/cover.jpg" width="200" height="133" alt="1989 Honeymoon"><br>
                 <span class="menu-item-img-desc">Gun Hill Signal Station</span>
@@ -101,7 +180,20 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr>
+              <td colspan="2">
+                <table class="hrTable-selectable">
+                  <tr>
+                    <td class="section-hdr-arrow" onclick="toggleSectionDisplay(this, '1990s')">&nbsp;&#9660;</td>
+                    <td class="hrTd"><hr></td>
+                    <td><span class="section-hdr">&nbsp;&nbsp;&nbsp;1990s&nbsp;&nbsp;&nbsp;</span></td>
+                    <td class="hrTd"><hr></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/1990Colorado/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/1990Colorado/cover.jpg" width="200" height="133" alt="1990 Spring Vacation"><br>
                 <span class="menu-item-img-desc">Estes Park</span>
@@ -121,7 +213,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/1990Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/1990Trip/cover.jpg" width="200" height="133" alt="1990 Autumn Vacation"><br>
                 <span class="menu-item-img-desc">Zion National Park</span>
@@ -141,7 +233,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/1991Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/1991Trip/cover.jpg" width="200" height="133" alt="1991 Spring Vacation"><br>
                 <span class="menu-item-img-desc">Jackson Covered Bridge</span>
@@ -159,7 +251,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/1991FallFoliage/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/1991FallFoliage/cover.jpg" width="200" height="133" alt="1991 Autumn Vacation"><br>
                 <span class="menu-item-img-desc">Blue Ridge Parkway</span>
@@ -177,7 +269,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/1992Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/1992Trip/cover.jpg" width="200" height="133" alt="1992 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Beale Street</span>
@@ -195,7 +287,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/1992OS2Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/1992OS2Trip/cover.jpg" width="200" height="133" alt="1992 Business Trip"><br>
                 <span class="menu-item-img-desc">Golden Gate Bridge</span>
@@ -215,7 +307,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/1992FallFoliage/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/1992FallFoliage/cover.jpg" width="200" height="133" alt="1992 Autumn Vacation"><br>
                 <span class="menu-item-img-desc">Ellsworth</span>
@@ -233,7 +325,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/1993Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/1993Trip/cover.jpg" width="200" height="133" alt="1993 Spring Vacation"><br>
                 <span class="menu-item-img-desc">Palace of Fine Arts</span>
@@ -253,7 +345,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/1993Homecoming/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/1993Homecoming/cover.jpg" width="200" height="133" alt="1993 Autumn Vacation"><br>
                 <span class="menu-item-img-desc">Guadalupe Mountains National Park</span>
@@ -273,7 +365,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/1995Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/1995Trip/cover.jpg" width="200" height="133" alt="1995 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Yellowstone National Park</span>
@@ -293,7 +385,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/1996-97RoseParade/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/1996-97RoseParade/cover.jpg" width="200" height="133" alt="1996-97 Winter Vacation"><br>
                 <span class="menu-item-img-desc">Lake Powell</span>
@@ -313,7 +405,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/1998Colorado/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/1998Colorado/cover.jpg" width="200" height="133" alt="1998 Summer Vacation I"><br>
                 <span class="menu-item-img-desc">Great Sand Dunes National Monument</span>
@@ -331,7 +423,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/1998Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/1998Trip/cover.jpg" width="200" height="133" alt="1998 Summer Vacation II"><br>
                 <span class="menu-item-img-desc">Badlands National Park</span>
@@ -349,7 +441,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/1998Homecoming/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/1998Homecoming/cover.jpg" width="200" height="133" alt="1998 Autumn Vacation"><br>
                 <span class="menu-item-img-desc">Saguaro National Park</span>
@@ -367,7 +459,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 1990s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/1999Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/1999Trip/cover.jpg" width="200" height="133" alt="1999 Autumn Vacation"><br>
                 <span class="menu-item-img-desc">San Antonio Missions National Historical Park</span>
@@ -385,7 +477,20 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr>
+              <td colspan="2">
+                <table class="hrTable-selectable">
+                  <tr>
+                    <td class="section-hdr-arrow" onclick="toggleSectionDisplay(this, '2000s')">&nbsp;&#9660;</td>
+                    <td class="hrTd"><hr></td>
+                    <td><span class="section-hdr">&nbsp;&nbsp;&nbsp;2000s&nbsp;&nbsp;&nbsp;</span></td>
+                    <td class="hrTd"><hr></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2001Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2001Trip/cover.jpg" width="200" height="133" alt="2001 Spring Vacation"><br>
                 <span class="menu-item-img-desc">Arches National Park</span>
@@ -403,7 +508,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2002Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2002Trip/cover.jpg" width="200" height="133" alt="2002 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Grand Marais Lighthouse</span>
@@ -421,7 +526,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2004Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2004Trip/cover.jpg" width="200" height="133" alt="2004 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Big Sable Point Lighthouse</span>
@@ -439,7 +544,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2005Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2005Trip/cover.jpg" width="200" height="133" alt="2005 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Dinosaur National Monument</span>
@@ -457,7 +562,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2006Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2006Trip/cover.jpg" width="200" height="150" alt="2006 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Diamond Caverns</span>
@@ -475,7 +580,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2007Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2007Trip/cover.jpg" width="200" height="150" alt="2007 Summer Vacation I"><br>
                 <span class="menu-item-img-desc">Monument Valley Navajo Tribal Park</span>
@@ -493,7 +598,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2007Colorado/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2007Colorado/cover.jpg" width="200" height="150" alt="2007 Summer Vacation II"><br>
                 <span class="menu-item-img-desc">Rocky Mountain National Park</span>
@@ -513,7 +618,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2008Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2008Trip/cover.jpg" width="200" height="150" alt="2008 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Mount Rushmore National Memorial</span>
@@ -531,7 +636,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2000s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2009Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2009Trip/cover.jpg" width="200" height="150" alt="2009 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Yellowstone National Park</span>
@@ -549,7 +654,20 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr>
+              <td colspan="2">
+                <table class="hrTable-selectable">
+                  <tr>
+                    <td class="section-hdr-arrow" onclick="toggleSectionDisplay(this, '2010s')">&nbsp;&#9660;</td>
+                    <td class="hrTd"><hr></td>
+                    <td><span class="section-hdr">&nbsp;&nbsp;&nbsp;2010s&nbsp;&nbsp;&nbsp;</span></td>
+                    <td class="hrTd"><hr></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2010Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2010Trip/cover.jpg" width="200" height="150" alt="2010 Summer Vacation I"><br>
                 <span class="menu-item-img-desc">Yosemite National Park</span>
@@ -567,7 +685,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2010Wisconsin/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2010Wisconsin/cover.jpg" width="200" height="150" alt="2010 Summer Vacation II"><br>
                 <span class="menu-item-img-desc">Split Rock Lighthouse State Park</span>
@@ -585,7 +703,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/https://deblaschke.github.io/travel-slideshows-rockies/2011Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2011Trip/cover.jpg" width="200" height="150" alt="2011 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Grand Teton National Park</span>
@@ -603,7 +721,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2012Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2012Trip/cover.jpg" width="200" height="150" alt="2012 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Fort Wilkins Historic State Park</span>
@@ -621,7 +739,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2013Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2013Trip/cover.jpg" width="200" height="150" alt="2013 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Lone Cypress</span>
@@ -639,7 +757,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2013-14Florida/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2013-14Florida/cover.jpg" width="200" height="150" alt="2013-14 Winter Break"><br>
                 <span class="menu-item-img-desc">Battleship Texas State Historic Site</span>
@@ -657,7 +775,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2014WashDC/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2014WashDC/cover.jpg" width="200" height="150" alt="2014 Spring Break"><br>
                 <span class="menu-item-img-desc">Thomas Jefferson Memorial</span>
@@ -677,7 +795,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2014Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2014Trip/cover.jpg" width="200" height="150" alt="2014 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Glacier National Park</span>
@@ -695,7 +813,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2014-15Arizona/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2014-15Arizona/cover.jpg" width="200" height="150" alt="2014-15 Winter Break"><br>
                 <span class="menu-item-img-desc">Sedona</span>
@@ -713,7 +831,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2015Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2015Trip/cover.jpg" width="200" height="150" alt="2015 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Hanging Lake</span>
@@ -731,7 +849,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2015NewMexico/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2015NewMexico/cover.jpg" width="200" height="150" alt="2015 Winter Break"><br>
                 <span class="menu-item-img-desc">Palo Duro Canyon State Park</span>
@@ -749,7 +867,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2016WashDC/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2016WashDC/cover.jpg" width="200" height="150" alt="2016 Spring Break"><br>
                 <span class="menu-item-img-desc">Enid A. Haupt Garden</span>
@@ -767,7 +885,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2016Alaska/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2016Alaska/cover.jpg" width="200" height="150" alt="2016 Alaskan Cruise"><br>
                 <span class="menu-item-img-desc">Glacier Bay National Park</span>
@@ -789,7 +907,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2016Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2016Trip/cover.jpg" width="200" height="150" alt="2016 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Peninsula State Park</span>
@@ -807,7 +925,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-overseas/2016Berlin/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-overseas/2016Berlin/cover.jpg" width="200" height="150" alt="2016 Business Trip"><br>
                 <span class="menu-item-img-desc">Alte Nationalgalerie</span>
@@ -825,7 +943,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2017Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2017Trip/cover.jpg" width="200" height="150" alt="2017 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Maroon Bells-Snowmass Wilderness</span>
@@ -843,7 +961,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2018Colorado/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2018Colorado/cover.jpg" width="200" height="150" alt="2018 Spring Break"><br>
                 <span class="menu-item-img-desc">Carlsbad Caverns National Park</span>
@@ -861,7 +979,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2018Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2018Trip/cover.jpg" width="200" height="150" alt="2018 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Sturgeon Bay Canal North Pierhead Lighthouse</span>
@@ -879,7 +997,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2018-19Florida/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2018-19Florida/cover.jpg" width="200" height="150" alt="2018-19 Winter Break"><br>
                 <span class="menu-item-img-desc">Bayside Marketplace</span>
@@ -897,7 +1015,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-overseas/2019Berlin/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-overseas/2019Berlin/cover.jpg" width="200" height="150" alt="2019 Business Trip I"><br>
                 <span class="menu-item-img-desc">Stra&szlig;e des 17. Juni</span>
@@ -915,7 +1033,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2019Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2019Trip/cover.jpg" width="200" height="150" alt="2019 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Banff National Park</span>
@@ -933,7 +1051,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2010s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-overseas/2019Cologne/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-overseas/2019Cologne/cover.jpg" width="200" height="150" alt="2019 Business Trip II"><br>
                 <span class="menu-item-img-desc">Rheingarten</span>
@@ -953,7 +1071,20 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr>
+              <td colspan="2">
+                <table class="hrTable-selectable">
+                  <tr>
+                    <td class="section-hdr-arrow" onclick="toggleSectionDisplay(this, '2020s')">&nbsp;&#9660;</td>
+                    <td class="hrTd"><hr></td>
+                    <td><span class="section-hdr">&nbsp;&nbsp;&nbsp;2020s&nbsp;&nbsp;&nbsp;</span></td>
+                    <td class="hrTd"><hr></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2020Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2020Trip/cover.jpg" width="200" height="150" alt="2020 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Pictured Rocks National Lakeshore</span>
@@ -971,7 +1102,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2021Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2021Trip/cover.jpg" width="200" height="150" alt="2021 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Crater Lake National Park</span>
@@ -989,7 +1120,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2021Colorado/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2021Colorado/cover.jpg" width="200" height="150" alt="2021 Autumn Vacation"><br>
                 <span class="menu-item-img-desc">Kenosha Gulch</span>
@@ -1007,7 +1138,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2022Colorado/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2022Colorado/cover.jpg" width="200" height="150" alt="2022 Spring Vacation"><br>
                 <span class="menu-item-img-desc">Dry Cimarron Scenic Byway</span>
@@ -1025,7 +1156,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2022Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2022Trip/cover.jpg" width="200" height="150" alt="2022 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Duluth Harbor South Breakwater Lighthouses</span>
@@ -1043,7 +1174,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-rockies/2023Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-rockies/2023Trip/cover.jpg" width="200" height="150" alt="2023 Summer Vacation"><br>
                 <span class="menu-item-img-desc">Monument Rocks</span>
@@ -1061,7 +1192,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-east/2023SanAntonio/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-east/2023SanAntonio/cover.jpg" width="200" height="150" alt="2023 Bowl Trip"><br>
                 <span class="menu-item-img-desc">San Antonio</span>
@@ -1079,7 +1210,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2024LosAngeles/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2024LosAngeles/cover.jpg" width="200" height="150" alt="2024 Concert Trip"><br>
                 <span class="menu-item-img-desc">Griffith Observatory</span>
@@ -1099,7 +1230,7 @@
               </td>
             </tr>
 
-            <tr class="menu-item">
+            <tr class="menu-item 2020s">
               <td class="menu-item-img"><a href="https://deblaschke.github.io/travel-slideshows-west/2024-25Trip/" target="_blank">
                 <img src="https://deblaschke.github.io/travel-slideshows-west/2024-25Trip/cover.jpg" width="200" height="150" alt="2024-25 Winter Break"><br>
                 <span class="menu-item-img-desc">Grand Canyon National Park</span>
@@ -1121,6 +1252,7 @@
               <td colspan="2">
                 <table class="hrTable">
                   <tr>
+                    <td class="section-hdr-arrow-transparent" style="color: transparent;">&nbsp;&#9650;</td>
                     <td class="hrTd"><hr></td>
                     <td><span class="compilations-hdr">&nbsp;&nbsp;&nbsp;Compilations&nbsp;&nbsp;&nbsp;</span></td>
                     <td class="hrTd"><hr></td>
@@ -1278,6 +1410,7 @@
               <td colspan="2">
                 <table class="hrTable">
                   <tr>
+                    <td class="section-hdr-arrow-transparent" style="color: transparent;">&nbsp;&#9650;</td>
                     <td class="hrTd"><hr></td>
                     <td><span class="notes-hdr">&nbsp;&nbsp;&nbsp;Notes&nbsp;&nbsp;&nbsp;</span></td>
                     <td class="hrTd"><hr></td>
@@ -1291,8 +1424,7 @@
                 <ul>
                   <li>Digital pictures (cameras E-P) are original material, no editing has taken place except for resizing and cropping</li>
                   <li>Film pictures (cameras A-B) are original material scanned from color negatives, editing has taken place to remove imperfections, correct fading, resize and crop</li>
-                  <li>Pictures are displayed in chronological order</li>
-                  <li>Pictures are displayed at the rate of 20 per minute (customizable via 'interval' query parameter)</li>
+                  <li>Pictures are displayed in chronological order at the rate of 20 per minute (customizable via 'interval' query parameter)</li>
                 </ul>
               </td>
             </tr>
@@ -1308,5 +1440,11 @@
         </td>
       </tr>
     </table>
+    <script>
+      // Set initial section display based off map contents
+      for (const [key, value] of mapSections) {
+        setSectionDisplay(null, key, value);
+      }
+    </script>
   </body>
 </html>
