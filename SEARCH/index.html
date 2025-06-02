@@ -239,7 +239,6 @@
     </script>
   </head>
   <body>
-    </table>
     <table id="outerTable">
       <tr>
         <td>
@@ -249,7 +248,7 @@
       <tr>
         <td>
           <span id="searchBar">
-            <input type="text" id="inputText" placeholder="Enter text">
+            <input type="text" id="inputText" placeholder="Enter text"/>
             <select id="inputState">
               <option value="">Select state</option>
               <option value=""></option>
@@ -306,7 +305,7 @@
               <option value="BC">British Columbia</option>
               <option value="ON">Ontario</option>
             </select>
-            <button onclick="slideshowSearch()">&#x1F50D;</button>
+            <button id="searchButton" onclick="slideshowSearch()">&#x1F50D;</button>
             <span id="searchResults"></span>
           </span>
         </td>
