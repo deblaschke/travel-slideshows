@@ -17,7 +17,9 @@ buttons.
 A rudimentary search capability was added on May 17, 2025.  With it, you can
 search for slides by subject (search text) and/or state.  An exclamation mark (!)
 as the first character in the search text indicates negation, i.e. matches all
-subjects NOT containing the search text.
+subjects NOT containing the search text.  Searches are case-insensitive and can
+include spaces to match multiple words, e.g. "yel nat" will match all slides with
+"Yellowstone National Park" in the subject.
 
 The slideshows have been tested on the following browsers:
    - Firefox on Windows and macOS

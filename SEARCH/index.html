@@ -30,86 +30,88 @@
     </style>
     <script>
       // Maximum allowed search results
-      const MAXIMUM_SEARCH_RESULT = 1500;
+      var MAXIMUM_SEARCH_RESULT = 1500;
 
-      const SLIDESHOW_REGION_EAST = [
-              "1991Trip",
-              "1991FallFoliage",
-              "1992Trip",
-              "1992FallFoliage",
-              "1998Trip",
-              "1999Trip",
-              "2002Trip",
-              "2004Trip",
-              "2006Trip",
-              "2008Trip",
-              "2010Wisconsin",
-              "2012Trip",
-              "2013-14Florida",
-              "2014WashDC",
-              "2016WashDC",
-              "2016Trip",
-              "2018Trip",
-              "2018-19Florida",
-              "2020Trip",
-              "2022Trip",
-              "2023SanAntonio",
+      var SLIDESHOW_REGION_EAST = [
+        "1991Trip",
+        "1991FallFoliage",
+        "1992Trip",
+        "1992FallFoliage",
+        "1998Trip",
+        "1999Trip",
+        "2002Trip",
+        "2004Trip",
+        "2006Trip",
+        "2008Trip",
+        "2010Wisconsin",
+        "2012Trip",
+        "2013-14Florida",
+        "2014WashDC",
+        "2016WashDC",
+        "2016Trip",
+        "2018Trip",
+        "2018-19Florida",
+        "2020Trip",
+        "2022Trip",
+        "2023SanAntonio",
       ];
-      const SLIDESHOW_REGION_ROCK = [
-              "1990Colorado",
-              "1995Trip",
-              "1998Colorado",
-              "2005Trip",
-              "2007Colorado",
-              "2009Trip",
-              "2011Trip",
-              "2014Trip",
-              "2015Trip",
-              "2015NewMexico",
-              "2017Trip",
-              "2018Colorado",
-              "2019Trip",
-              "2021Colorado",
-              "2022Colorado",
-              "2023Trip",
+      var SLIDESHOW_REGION_ROCK = [
+        "1990Colorado",
+        "1995Trip",
+        "1998Colorado",
+        "2005Trip",
+        "2007Colorado",
+        "2009Trip",
+        "2011Trip",
+        "2014Trip",
+        "2015Trip",
+        "2015NewMexico",
+        "2017Trip",
+        "2018Colorado",
+        "2019Trip",
+        "2021Colorado",
+        "2022Colorado",
+        "2023Trip",
       ];
-      const SLIDESHOW_REGION_WEST = [
-              "1988Trip",
-              "1990Trip",
-              "1992OS2Trip",
-              "1993Trip",
-              "1993Homecoming",
-              "1996-97RoseParade",
-              "1998Homecoming",
-              "2001Trip",
-              "2007Trip",
-              "2010Trip",
-              "2013Trip",
-              "2014-15Arizona",
-              "2016Alaska",
-              "2021Trip",
-              "2024LosAngeles",
-              "2024-25Trip",
+      var SLIDESHOW_REGION_WEST = [
+        "1988Trip",
+        "1990Trip",
+        "1992OS2Trip",
+        "1993Trip",
+        "1993Homecoming",
+        "1996-97RoseParade",
+        "1998Homecoming",
+        "2001Trip",
+        "2007Trip",
+        "2010Trip",
+        "2013Trip",
+        "2014-15Arizona",
+        "2016Alaska",
+        "2021Trip",
+        "2024LosAngeles",
+        "2024-25Trip",
       ];
 
       // getSearchError returns user error, which is base[+text][+state]
       function getSearchError(base, state, text) {
-        let msg = base;
-        if (text != null)
+        var msg = base;
+        if (text != null) {
           msg = msg + " for text=\"" + text + "\"";
-        if (state != null)
+        }
+        if (state != null) {
           msg = msg + " in state=\"" + state + "\"";
+        }
         return msg;
       }
 
       // slideshowSearch runs slideshow based on filterd search results
       function slideshowSearch() {
         // Start with all available slides
-        let filtered_slides = all_slides;
+        var filtered_slides = all_slides;
 
         // Filter slides based on state, if provided
-        let state = null;
-        let inputState = document.getElementById("inputState");
+        var state = null;
+        var inputState = document.getElementById("inputState");
         if (inputState != null) {
           state = inputState.value;
           if (state != null && state.length > 0) {
@@ -120,29 +122,29 @@
         }
 
         // Filter slides based on text, if provided ('!' as first character indicates negative search)
-        let text = null;
-        let invalidText = false;
-        let inputText = document.getElementById("inputText");
+        var text = null;
+        var invalidText = false;
+        var inputText = document.getElementById("inputText");
         if (inputText != null) {
           text = inputText.value;
           if (text != null && text.trim().length > 0) {
-             let cleanText = text.trim();
+             var cleanText = text.trim();
 
              // Valid characters are initial '!', letters, digits and whitespace
-             if (!cleanText.match(/^!?[0-9A-Za-z\s]+$/)) {
+             if (!/^!?[0-9A-Za-z\s]+$/.test(cleanText)) {
                invalidText = true;
              } else {
-               // Handle negative search
-               let negativeSearch = false;
+               // Handle negative search if indicated
+               var negativeSearch = false;
                if (cleanText.charAt(0) == '!') {
                  cleanText = cleanText.substring(1);
                  negativeSearch = true;
                }
 
                // Dynamically generate regex pattern for search
-               let textWords = cleanText.split(/\s+/);
-               let regexPattern = ".*";
-               for (let i = 0; i < textWords.length; i++) {
+               var textWords = cleanText.split(/\s+/);
+               var regexPattern = ".*";
+               for (var i = 0; i < textWords.length; i++) {
                  regexPattern += (textWords[i] + ".*");
                }
 
@@ -181,15 +183,15 @@
 
         // Search results just right, start slideshow
         else {
-          const targetElement = document.getElementById('slideContent');
+          var targetElement = document.getElementById("slideContent");
 
           // Clear out any existing slides in slideshow
-          while (targetElement.firstChild) {
+          while (targetElement.firstChild != null) {
             targetElement.removeChild(targetElement.lastChild);
           }
 
           // Add title to slideshow
-          let imgElem = document.createElement('img');
+          var imgElem = document.createElement('img');
           imgElem.src = "SEARCH/title.jpg";
           imgElem.alt = "Title";
           imgElem.className = "tripPix";
@@ -198,7 +200,7 @@
 
           // Add matching slides to slideshow
           filtered_slides.forEach(function(slide) {
-            let region = "";
+            var region = "";
             if (SLIDESHOW_REGION_EAST.includes(slide.dir)) {
               region = "https://deblaschke.github.io/travel-slideshows-east";
             } else if (SLIDESHOW_REGION_ROCK.includes(slide.dir)) {
@@ -355,13 +357,13 @@
 
       // Allow for search via query parameters
       if ("URLSearchParams" in window) {
-        let inputText = null;
-        let inputState = null;
-        let urlParams = new URLSearchParams(window.location.search);
+        var inputText = null;
+        var inputState = null;
+        var urlParams = new URLSearchParams(window.location.search);
 
         // Handle search text query parameter
-        let urlParam = urlParams.get('text');
-        if (urlParam) {
+        var urlParam = urlParams.get('text');
+        if (urlParam != null) {
           if (/^!?[0-9A-Za-z\s]+$/.test(urlParam)) {
             inputText = urlParam;
           } else {
@@ -372,7 +374,7 @@
 
         // Handle search state query parameter
         urlParam = urlParams.get('state');
-        if (urlParam) {
+        if (urlParam != null) {
           if (["AL","AK","AZ","AR","CA","CO","CT","DC","FL","GA","ID","IL","IN","IA","KS",
                "KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM",
                "NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA",
@@ -385,14 +387,12 @@
         }
 
         // Run slideshow if at least one valid query parameter
-        if (inputText || inputState) {
-          if (inputText) {
-            let elem = document.getElementById("inputText");
-            elem.value = inputText;
+        if (inputText != null || inputState != null) {
+          if (inputText != null) {
+            document.getElementById("inputText").value = inputText;
           }
-          if (inputState) {
-            let elem = document.getElementById("inputState");
-            elem.value = inputState;
+          if (inputState != null) {
+            document.getElementById("inputState").value = inputState;
           }
           slideshowSearch();
         }

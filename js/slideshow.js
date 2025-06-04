@@ -54,15 +54,13 @@ if ("URLSearchParams" in window) {
 
 // reduceSlideshow removes elements from slideshowElems that are outside specified from/to range
 function reduceSlideshow() {
-  var i;
-
   // Start at end so that remove() does not affect index
-  for (i = slideshowElems.length - 1; i > -1; i--) {
+  for (var i = slideshowElems.length - 1; i > -1; i--) {
     var path = slideshowElems[i].src;
     var index = path.lastIndexOf('/');
     if (index >= 0 && path.lastIndexOf('.jpg') > index) {
       var file = path.substring(index + 1, path.lastIndexOf('.'));
-      if (file.match(/^[0-9]{3}_/)) {
+      if (/^[0-9]{3}_/.test(file)) {
         num = parseInt(file.substring(0, 3), 10);
         if (!isNaN(num)) {
           if ((SLIDESHOW_INDEX_FROM > -1 && num < SLIDESHOW_INDEX_FROM) ||
@@ -154,8 +152,7 @@ function showPic(n) {
   if (slideIndex < 1) {slideIndex = slideshowElems.length}
 
   // Set all slides to hidden
-  var i;
-  for (i = 0; i < slideshowElems.length; i++) {
+  for (var i = 0; i < slideshowElems.length; i++) {
     slideshowElems[i].style.display = "none";
   }
 
@@ -210,7 +207,7 @@ if (SLIDESHOW_AUDIO) {
 
   // Play audio object, catching/ignoring any errors
   promise = slideshowSound.play();
-  if (promise) {
+  if (promise != null) {
     promise.catch(function(error) { });
   }
 }

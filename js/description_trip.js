@@ -13,14 +13,14 @@ function getDescription(path) {
     var file = path.substring(index + 1, path.lastIndexOf('.'));
 
     // File begins with "nnn_" for slides
-    if (file.match(/^[0-9]{3}_/)) {
-      if (file.match(/^[0-9]{3}_[C-Z]{1}[0-9]{7}/)) {
+    if (/^[0-9]{3}_/.test(file)) {
+      if (/^[0-9]{3}_[C-Z]{1}[0-9]{7}/.test(file)) {
         // Found digital camera picture name ("nnn_Annnnnnn")
         result = file.substring(4, 12);
-      } else if (file.match(/^[0-9]{3}_[A-B]{1}[0-9]{3}-[0-9]{2}/)) {
+      } else if (/^[0-9]{3}_[A-B]{1}[0-9]{3}-[0-9]{2}/.test(file)) {
         // Found film camera picture name ("nnn_Annn-nn")
         result = file.substring(4, 11);
-      } else if (file.match(/^[0-9]{3}_[0-9]{8}T[0-9]{6}/)) {
+      } else if (/^[0-9]{3}_[0-9]{8}T[0-9]{6}/.test(file)) {
         // Found cell phone camera picture name ("nnn_nnnnnnnnTnnnnnn")
         result = file.substring(4, 12) + file.substring(13, 19);
       }
