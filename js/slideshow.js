@@ -236,6 +236,9 @@ function setPicDimensions() {
 
 // Handle window load
 window.onload = function() {
+  // Don't do anything if search page
+  if (window.location.pathname.includes("SEARCH")) return;
+
   if (!SLIDESHOW_AUDIO) {
     // Remove music credit (last slide) if it exists
     var audioCredit = slideshowElems[slideshowElems.length-1].src;
@@ -256,11 +259,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
   setPicDimensions();
   slideIndex = 0;
 
-  // Initiate slideshow
-  if (MANUAL_SLIDESHOW) {
-    hidePlayButton();
-    showPic(1);
-  } else {
-    slideshow();
+  // Initiate slideshow if not search page
+  if (!window.location.pathname.includes("SEARCH")) {
+    if (MANUAL_SLIDESHOW) {
+      hidePlayButton();
+      showPic(1);
+    } else {
+      slideshow();
+    }
   }
 });
