@@ -17,9 +17,24 @@
         box-shadow: 3px 3px 3px rgba(68, 68, 68, 0.5);
       }
 
+      select {
+        padding-inline-start: 1px;
+        padding-inline-end: 1px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+      }
+
+      /* Change padding on Firefox so select height same as input/button */
+      @supports (-moz-appearance:none) {
+        select {
+          padding-top: 1px;
+          padding-bottom: 1px;
+        }
+      }
+
       #searchBar {
         font-size: small;
-        vertical-align: middle;
+        vertical-align: bottom;
       }
 
       #slideContent {

@@ -44,6 +44,8 @@ button {
   width: 2em;
   height: 2em;
   box-shadow: 3px 3px 3px rgba(68, 68, 68, 0.5);
+  padding-inline-start: 0;
+  padding-inline-end: 0;
 }
 
 #slideName {
