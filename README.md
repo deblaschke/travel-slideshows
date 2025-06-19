@@ -22,11 +22,11 @@ include spaces to match multiple words, e.g. "yel nat" will match all slides wit
 "Yellowstone National Park" in the subject.
 
 The slideshows have been tested on the following browsers:
-   - Firefox on Windows and macOS
-   - Chrome on Windows, macOS and Android (NOTE: Not responsive on mobile devices)
-   - Internet Explorer on Windows (NOTE: Might need to allow blocked content)
-   - Safari on macOS
-   - Edge on Windows
+- Firefox on Windows and macOS
+- Chrome on Windows, macOS and Android (NOTE: Not perfectly responsive on mobile devices)
+- Internet Explorer on Windows (NOTE: Might need to allow blocked content)
+- Safari on macOS
+- Edge on Windows
 
 The following slideshow attibutes can be customized:
 
