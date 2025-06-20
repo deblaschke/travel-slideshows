@@ -163,12 +163,12 @@
                  regexPattern += (textWords[i] + ".*");
                }
 
-               // Perform case-insensitive search
+               // Perform case-insensitive search NOT including slide number
                regexObj = new RegExp(regexPattern, 'i');
                if (negativeSearch) {
-                 filtered_slides = filtered_slides.filter(slide => !regexObj.test(slide.file));
+                 filtered_slides = filtered_slides.filter(slide => !regexObj.test(slide.file.substring(4)));
                } else {
-                 filtered_slides = filtered_slides.filter(slide => regexObj.test(slide.file));
+                 filtered_slides = filtered_slides.filter(slide => regexObj.test(slide.file.substring(4)));
                }
              }
           } else {
