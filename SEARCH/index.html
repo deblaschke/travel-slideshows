@@ -277,6 +277,52 @@
           }
         }
       }
+
+      // verifySearchPrereqs runs slideshow if prerequisites (one valid query parameter) met
+      function verifySearchPrereqs() {
+        if ("URLSearchParams" in window) {
+          var inputText = null;
+          var inputState = null;
+          var urlParams = new URLSearchParams(window.location.search);
+
+          // Handle search text query parameter
+          var urlParam = urlParams.get('text');
+          if (urlParam != null) {
+            if (/^!?[0-9A-Za-z\s]+$/.test(urlParam)) {
+              inputText = urlParam;
+            } else {
+              alert("Invalid character in text=\"" + urlParam + "\", ignored");
+              inputText = null;
+            }
+          }
+
+          // Handle search state query parameter
+          urlParam = urlParams.get('state');
+          if (urlParam != null) {
+            if (["AL","AK","AZ","AR","CA","CO","CT","DC","FL","GA","ID","IL","IN","IA","KS",
+                 "KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM",
+                 "NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA",
+                 "WA","WI","WY","AB","BC","ON","QC",
+                 "BRB","ENG","DEU","GRL","PRI","SCT"].includes(urlParam.toUpperCase())) {
+              inputState = urlParam.toUpperCase();
+            } else {
+              alert("Invalid state=\"" + urlParam + "\", ignored");
+              inputState = null;
+            }
+          }
+
+          // Run slideshow if at least one valid query parameter
+          if (inputText != null || inputState != null) {
+            if (inputText != null) {
+              document.getElementById("inputText").value = inputText;
+            }
+            if (inputState != null) {
+              document.getElementById("inputState").value = inputState;
+            }
+            slideshowSearch();
+          }
+        }
+      }
     </script>
   </head>
   <body>
@@ -381,55 +427,9 @@
       </tr>
     </table>
     <script>
-      // Code is placed here so that the necessary elements (searchResults, etc.) have been defined
-      // when it runs
-
-      // Initialize search results
-      // document.getElementById("searchResults").innerHTML = "&nbsp;<b>(?/" + all_slides.length + " photos)</b>";
-
-      // Allow for search via query parameters
-      if ("URLSearchParams" in window) {
-        var inputText = null;
-        var inputState = null;
-        var urlParams = new URLSearchParams(window.location.search);
-
-        // Handle search text query parameter
-        var urlParam = urlParams.get('text');
-        if (urlParam != null) {
-          if (/^!?[0-9A-Za-z\s]+$/.test(urlParam)) {
-            inputText = urlParam;
-          } else {
-            alert("Invalid character in text=\"" + urlParam + "\", ignored");
-            inputText = null;
-          }
-        }
-
-        // Handle search state query parameter
-        urlParam = urlParams.get('state');
-        if (urlParam != null) {
-          if (["AL","AK","AZ","AR","CA","CO","CT","DC","FL","GA","ID","IL","IN","IA","KS",
-               "KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM",
-               "NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA",
-               "WA","WI","WY","AB","BC","ON","QC",
-               "BRB","ENG","DEU","GRL","PRI","SCT"].includes(urlParam.toUpperCase())) {
-            inputState = urlParam.toUpperCase();
-          } else {
-            alert("Invalid state=\"" + urlParam + "\", ignored");
-            inputState = null;
-          }
-        }
-
-        // Run slideshow if at least one valid query parameter
-        if (inputText != null || inputState != null) {
-          if (inputText != null) {
-            document.getElementById("inputText").value = inputText;
-          }
-          if (inputState != null) {
-            document.getElementById("inputState").value = inputState;
-          }
-          slideshowSearch();
-        }
-      }
+      // Code is placed here so that the necessary elements (searchResults, inputText, etc.) have
+      // been defined when it runs
+      verifySearchPrereqs();
     </script>
   </body>
 </html>
