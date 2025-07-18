@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <base href="..">
+    <title>Travel Slideshows Query</title>
+    <link rel="stylesheet" href="css/slideshow.css">
+    <script src="js/slideshow.js"></script>
+    <script src="js/description_trip.js"></script>
+    <script src="js/all_slides.js"></script>
+    <style media="screen">
+      #slideContent {
+        color: #D2B48C;
+        font-size: 2em;
+        font-weight: bold;
+      }
+
+      #slideContent p {
+        text-align: left;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      #slideContent td {
+        font-size: 0.6em;
+        text-align: left;
+        vertical-align: top;
+        border-style: none;
+        box-shadow: none;
+        padding: 0px 1px 0px 1px;
+      }
+    </style>
+    <script>
+      // by-query.html is set up to run slideshows with pictures extracted from all_slides.js based
+      // on query parameters, as opposed to those created statically in html files (i.e. a table of
+      // '<img class="tripPix" ...>' elements.  This seems to run much faster (especially on GitHub
+      // servers) and is much easier to maintain (just add new pictures to all_slides.js instead of
+      // slideshow.html, compilation html, state html, favorites html, etc.
+      //
+      // Available query parameters to control filtering of pictures from all_slides.js:
+      //   trip - matches "dir" key in all_slides object, i.e. "trip=1989Honeymoon"
+      //   text - filters on "file" key in all_slides object, i.e. "text=State Park"
+      //   state - matches "state" key in all_slides object, i.e. "state=TX"
+      //   attrs - filters on "attrs" key in all_slides object, i.e. "attrs=west fave";
+      //     if attempting to filter using multiple attributes, they MUST be included in the
+      //     following order:
+      //       region={east|rockies|west|overseas} compilation={grtlks|washdc} fave other={air|car|animal|flower|sun}...
+
+      var SLIDESHOW_REGION_EAST = [
+        "1991Trip",
+        "1991FallFoliage",
+        "1992Trip",
+        "1992FallFoliage",
+        "1998Trip",
+        "1999Trip",
+        "2002Trip",
+        "2004Trip",
+        "2006Trip",
+        "2008Trip",
+        "2010Wisconsin",
+        "2012Trip",
+        "2013-14Florida",
+        "2014WashDC",
+        "2016WashDC",
+        "2016Trip",
+        "2018Trip",
+        "2018-19Florida",
+        "2020Trip",
+        "2022Trip",
+        "2023SanAntonio",
+      ];
+
+      var SLIDESHOW_REGION_ROCK = [
+        "1990Colorado",
+        "1995Trip",
+        "1998Colorado",
+        "2005Trip",
+        "2007Colorado",
+        "2009Trip",
+        "2011Trip",
+        "2014Trip",
+        "2015Trip",
+        "2015NewMexico",
+        "2017Trip",
+        "2018Colorado",
+        "2019Trip",
+        "2021Colorado",
+        "2022Colorado",
+        "2023Trip",
+      ];
+
+      var SLIDESHOW_REGION_WEST = [
+        "1988Trip",
+        "1990Trip",
+        "1992OS2Trip",
+        "1993Trip",
+        "1993Homecoming",
+        "1996-97RoseParade",
+        "1998Homecoming",
+        "2001Trip",
+        "2007Trip",
+        "2010Trip",
+        "2013Trip",
+        "2014-15Arizona",
+        "2016Alaska",
+        "2021Trip",
+        "2024LosAngeles",
+        "2024-25Trip",
+      ];
+
+      var SLIDESHOW_REGION_OVERSEAS = [
+        "1989Honeymoon",
+        "2016Berlin",
+        "2017Dusseldorf",
+        "2018Dusseldorf",
+        "2019Berlin",
+        "2019Cologne",
+      ];
+
+      function getRegion(dir) {
+        var region = "";
+        if (SLIDESHOW_REGION_EAST.includes(dir)) {
+          region = "https://deblaschke.github.io/travel-slideshows-east";
+        } else if (SLIDESHOW_REGION_ROCK.includes(dir)) {
+          region = "https://deblaschke.github.io/travel-slideshows-rockies";
+        } else if (SLIDESHOW_REGION_WEST.includes(dir)) {
+          region = "https://deblaschke.github.io/travel-slideshows-west";
+        } else if (SLIDESHOW_REGION_OVERSEAS.includes(dir)) {
+          region = "https://deblaschke.github.io/travel-slideshows-overseas";
+        }
+        return region;
+      }
+
+      var mapTripToTitleText = new Map([
+        ["1988Trip",          "1988 Spring Break"],
+        ["1989Honeymoon",     "1989 Honeymoon"],
+        ["1990Colorado",      "1990 Spring Vacation"],
+        ["1990Trip",          "1990 Autumn Vacation"],
+        ["1991Trip",          "1991 Spring Vacation"],
+        ["1991FallFoliage",   "1991 Autumn Vacation"],
+        ["1992Trip",          "1992 Summer Vacation"],
+        ["1992OS2Trip",       "1992 Business Trip"],
+        ["1992FallFoliage",   "1992 Autumn Vacation"],
+        ["1993Trip",          "1993 Spring Vacation"],
+        ["1993Homecoming",    "1993 Autumn Vacation"],
+        ["1995Trip",          "1995 Summer Vacation"],
+        ["1996-97RoseParade", "1996-97 Winter Vacation"],
+        ["1998Colorado",      "1998 Summer Vacation I"],
+        ["1998Trip",          "1998 Summer Vacation II"],
+        ["1998Homecoming",    "1998 Autumn Vacation"],
+        ["1999Trip",          "1999 Autumn Vacation"],
+        ["2001Trip",          "2001 Spring Vacation"],
+        ["2002Trip",          "2002 Summer Vacation"],
+        ["2004Trip",          "2004 Summer Vacation"],
+        ["2005Trip",          "2005 Summer Vacation"],
+        ["2006Trip",          "2006 Summer Vacation"],
+        ["2007Trip",          "2007 Summer Vacation I"],
+        ["2007Colorado",      "2007 Summer Vacation II"],
+        ["2008Trip",          "2008 Summer Vacation"],
+        ["2009Trip",          "2009 Summer Vacation"],
+        ["2010Trip",          "2010 Summer Vacation I"],
+        ["2010Wisconsin",     "2010 Summer Vacation II"],
+        ["2011Trip",          "2011 Summer Vacation"],
+        ["2012Trip",          "2012 Summer Vacation"],
+        ["2013Trip",          "2013 Summer Vacation"],
+        ["2013-14Florida",    "2013-14 Winter Break"],
+        ["2014WashDC",        "2014 Spring Break"],
+        ["2014Trip",          "2014 Summer Vacation"],
+        ["2014-15Arizona",    "2014-15 Winter Break"],
+        ["2015Trip",          "2015 Summer Vacation"],
+        ["2015NewMexico",     "2015 Winter Break"],
+        ["2016WashDC",        "2016 Spring Break"],
+        ["2016Alaska",        "2016 Summer Vacation I"],
+        ["2016Trip",          "2016 Summer Vacation II"],
+        ["2016Berlin",        "2016 Business Trip"],
+        ["2017Trip",          "2017 Summer Vacation"],
+        ["2018Colorado",      "2018 Spring Break"],
+        ["2018Trip",          "2018 Summer Vacation"],
+        ["2018-19Florida",    "2018-19 Winter Break"],
+        ["2019Berlin",        "2019 Business Trip I"],
+        ["2019Trip",          "2019 Summer Vacation"],
+        ["2019Cologne",       "2019 Business Trip II"],
+        ["2020Trip",          "2020 Summer Vacation"],
+        ["2021Trip",          "2021 Summer Vacation"],
+        ["2021Colorado",      "2021 Autumn Vacation"],
+        ["2022Colorado",      "2022 Spring Vacation"],
+        ["2022Trip",          "2022 Summer Vacation"],
+        ["2023Trip",          "2023 Summer Vacation"],
+        ["2023SanAntonio",    "2023 Bowl Trip"],
+        ["2024LosAngeles",    "2024 Concert Trip"],
+        ["2024-25Trip",       "2024-25 Winter Break"]
+      ]);
+
+      var mapStateToTitleText = new Map([
+        ["AL", "Alabama"],
+        ["AK", "Alaska"],
+        ["AZ", "Arizona"],
+        ["AR", "Arkansas"],
+        ["CA", "California"],
+        ["CO", "Colorado"],
+        ["CT", "Connecticut"],
+        ["DC", "District of Columbia"],
+        ["FL", "Florida"],
+        ["GA", "Georgia"],
+        ["ID", "Idaho"],
+        ["IL", "Illinois"],
+        ["IN", "Indiana"],
+        ["IA", "Iowa"],
+        ["KS", "Kansas"],
+        ["KY", "Kentucky"],
+        ["LA", "Louisiana"],
+        ["ME", "Maine"],
+        ["MD", "Maryland"],
+        ["MA", "Massachusetts"],
+        ["MI", "Michigan"],
+        ["MN", "Minnesota"],
+        ["MS", "Mississippi"],
+        ["MO", "Missouri"],
+        ["MT", "Montana"],
+        ["NE", "Nebraska"],
+        ["NV", "Nevada"],
+        ["NH", "New Hampshire"],
+        ["NJ", "New Jersey"],
+        ["NM", "New Mexico"],
+        ["NY", "New York"],
+        ["NC", "North Carolina"],
+        ["ND", "North Dakota"],
+        ["OH", "Ohio"],
+        ["OK", "Oklahoma"],
+        ["OR", "Oregon"],
+        ["PA", "Pennsylvania"],
+        ["RI", "Rhode Island"],
+        ["SC", "South Carolina"],
+        ["SD", "South Dakota"],
+        ["TN", "Tennessee"],
+        ["TX", "Texas"],
+        ["UT", "Utah"],
+        ["VT", "Vermont"],
+        ["VA", "Virginia"],
+        ["WA", "Washington"],
+        ["WI", "Wisconsin"],
+        ["WY", "Wyoming"]
+      ]);
+
+      var queryHelp = '<p align=left>Please type one or more of the following query parameters in address bar above, then press enter:'+
+                      '<table>'+
+                      '<tr><td>trip</td><td>Name of trip, e.g. "trip=2014Trip" (case-sensitive)</td></tr>'+
+                      '<tr><td>text</td><td>Search text, e.g. "text=state park"</td></tr>'+
+                      '<tr><td>state&nbsp;&nbsp;</td><td>State abbreviation, e.g. "state=AZ"</td></tr>'+
+                      '<tr><td>attrs</td><td>Attribute(s) - east, rockies, west, overseas, animal, sun, air, and car, e.g. "attrs=rockies animal"</td></tr>'+
+                      '<tr><td></td><td><br>For example, to see a slideshow of animals in Utah\'s "Mighty 5" national parks:<br>'+
+                      '&nbsp;&nbsp;"/by-query.html?text=national park&state=UT&attrs=animal"</td></tr>'+
+                      '</table>'
+                      '</p>';
+
+      // slideshowQuery runs slideshow based on filterd search results obtained from query parameters
+      function slideshowQuery(trip, text, state, attrs, titleText, titleSlide) {
+        // Start with all available slides
+        var filtered_slides = all_slides;
+
+        // SPECIAL CASE: GitHub
+        if (titleSlide != null && titleSlide.startsWith('MULTIYR')) {
+          titleSlide = "https://deblaschke.github.io/travel-slideshows/" + titleSlide;
+        }
+
+        // Filter slides based on trip, if provided
+        if (trip != null && trip.length > 0) {
+          filtered_slides = filtered_slides.filter(slide => slide.dir == trip);
+
+          // Provide title info if none yet provided
+          if (titleText == null && titleSlide == null && mapTripToTitleText.has(trip)) {
+            titleText = mapTripToTitleText.get(trip);
+            titleSlide = getRegion(trip) + "/" + trip + "/title.jpg";
+          }
+        }
+
+        // Filter slides based on state, if provided
+        if (state != null && state.length > 0) {
+          filtered_slides = filtered_slides.filter(slide => slide.state == state);
+
+          // Provide title info if none yet provided
+          if (titleText == null && titleSlide == null && mapStateToTitleText.has(state)) {
+              titleText = mapStateToTitleText.get(state);
+              titleSlide = "STATES/title_" + state + ".jpg";
+          }
+        }
+
+        // Filter slides based on attributes, if provided
+        if (attrs != null && attrs.length > 0) {
+          var attrWords = attrs.trim().split(/\s+/);
+          for (var i = 0; i < attrWords.length; i++) {
+            filtered_slides = filtered_slides.filter(slide => slide.attrs.includes(attrWords[i]));
+          }
+        }
+
+        // Filter slides based on text, if provided ('!' as first character indicates negative search)
+        if (text != null && text.length > 0) {
+          var cleanText = text.trim();
+
+          // Handle negative search if indicated
+          var negativeSearch = false;
+          if (cleanText.charAt(0) == '!') {
+            cleanText = cleanText.substring(1);
+            negativeSearch = true;
+          }
+
+          // Dynamically generate regex pattern for search
+          var textWords = cleanText.split(/\s+/);
+          var regexPattern = ".*";
+          for (var i = 0; i < textWords.length; i++) {
+            regexPattern += (textWords[i] + ".*");
+          }
+
+          // Perform case-insensitive search NOT including slide number
+          var regexObj = new RegExp(regexPattern, 'i');
+          if (negativeSearch) {
+            filtered_slides = filtered_slides.filter(slide => !regexObj.test(slide.file.substring(4)));
+          } else {
+            filtered_slides = filtered_slides.filter(slide => regexObj.test(slide.file.substring(4)));
+          }
+        }
+
+        // DEBUG alert("There are " + filtered_slides.length + " pictures in this slideshow");
+
+        var targetElement = document.getElementById("slideContent");
+
+        // Clear out any existing slides in slideshow
+        while (targetElement.firstChild != null) {
+          targetElement.removeChild(targetElement.lastChild);
+        }
+
+        // Set slide title if one exists
+        if (titleText == null) {
+          titleText = "Travel Slideshows Query";
+        }
+        document.title = titleText;
+        document.getElementById("slideTitle").innerHTML = titleText;
+
+        // No query results, issue error
+        if (filtered_slides.length == 0) {
+          alert("No query results");
+          targetElement.innerHTML = queryHelp;
+        }
+
+        // Query results just right, start slideshow
+        else {
+          // Add title to slideshow
+          var imgElem = document.createElement('img');
+          imgElem.src = titleSlide == null ? "QUERY/title.jpg" : titleSlide;
+          imgElem.alt = "Title";
+          imgElem.className = "tripPix";
+          imgElem.style = "width:95%;height:71%;";
+          targetElement.appendChild(imgElem);
+
+          // Add matching slides to slideshow
+          filtered_slides.forEach(function(slide) {
+            imgElem = document.createElement('img');
+            imgElem.src = getRegion(slide.dir) + "/" + slide.dir + "/" + slide.file + ".jpg";
+            imgElem.alt = 'Slide';
+            imgElem.className = 'tripPix';
+            imgElem.style = slide.style;
+            targetElement.appendChild(imgElem);
+          });
+
+          // Add credits to slideshow
+          imgElem = document.createElement('img');
+          imgElem.src = "images/theend1.jpg";
+          imgElem.alt = "Credit";
+          imgElem.className = "tripPix";
+          imgElem.style = "width:95%;height:71%;";
+          targetElement.appendChild(imgElem);
+          imgElem = document.createElement('img');
+          imgElem.src = "images/theend2.jpg";
+          imgElem.alt = "Credit";
+          imgElem.className = "tripPix";
+          imgElem.style = "width:95%;height:71%;";
+          targetElement.appendChild(imgElem);
+          if (SLIDESHOW_AUDIO) {
+            imgElem = document.createElement('img');
+            imgElem.src = "images/theend3.jpg";
+            imgElem.alt = "Credit";
+            imgElem.className = "tripPix";
+            imgElem.style = "width:95%;height:71%;";
+            targetElement.appendChild(imgElem);
+          }
+
+          // Initiate slideshow
+          slideIndex = 0;
+          if (MANUAL_SLIDESHOW) {
+            hidePlayButton();
+            showPic(1);
+          } else {
+            slideshow();
+          }
+        }
+      }
+
+      // verifyQueryPrereqs runs slideshow if prerequisites (one valid query parameter) met
+      function verifyQueryPrereqs() {
+        if ("URLSearchParams" in window) {
+          var inputTrip = null;
+          var inputText = null;
+          var inputState = null;
+          var inputAttrs = null;
+          var inputTitleText = null;
+          var inputTitleSlide = null;
+          var urlParams = new URLSearchParams(window.location.search);
+
+          // Handle search trip query parameter
+          var urlParam = urlParams.get('trip');
+          if (urlParam != null) {
+            if (mapTripToTitleText.has(urlParam)) {
+              inputTrip = urlParam;
+            } else {
+              alert("Invalid trip=\"" + urlParam + "\", ignored");
+              inputTrip = null;
+            }
+          }
+
+          // Handle search text query parameter
+          urlParam = urlParams.get('text');
+          if (urlParam != null) {
+            if (/^!?[0-9A-Za-z\s]+$/.test(urlParam)) {
+              inputText = urlParam;
+            } else {
+              alert("Invalid character in text=\"" + urlParam + "\", ignored");
+              inputText = null;
+            }
+          }
+
+          // Handle search state query parameter
+          urlParam = urlParams.get('state');
+          if (urlParam != null) {
+            if (mapStateToTitleText.has(urlParam.toUpperCase()) ||
+                ["AB","BC","ON","QC","BRB","ENG","DEU","GRL","PRI","SCT"].includes(urlParam.toUpperCase())) {
+              inputState = urlParam.toUpperCase();
+            } else {
+              alert("Invalid state=\"" + urlParam + "\", ignored");
+              inputState = null;
+            }
+          }
+
+          // Handle search attributes query parameter
+          urlParam = urlParams.get('attrs');
+          if (urlParam != null) {
+            if (/^[A-Za-z\s]+$/.test(urlParam)) {
+              var words = urlParam.trim().split(/\s+/);
+              var invalidWord = null;
+              for (var i = 0; i < words.length; i++) {
+                if (!["east","overseas","rockies","west","grtlks","washdc","fave","animal","flower","sun","air","car"].includes(words[i])) {
+                  invalidWord = words[i];
+                  break;
+                }
+              }
+              if (invalidWord != null) {
+                alert("Invalid attribute in attrs=\"" + invalidWord + "\", ignored");
+                inputAttrs = null;
+              } else {
+                inputAttrs = urlParam;
+              }
+            } else {
+              alert("Invalid character in attrs=\"" + urlParam + "\", ignored");
+              inputAttrs = null;
+            }
+          }
+
+          // Run slideshow if at least one valid query parameter
+          if (inputTrip != null || inputText != null || inputState != null || inputAttrs != null) {
+            slideshowQuery(inputTrip, inputText, inputState, inputAttrs, urlParams.get("titleText"), urlParams.get("titleSlide"));
+          } else {
+            document.getElementById("slideContent").innerHTML = queryHelp;
+          }
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <table id="outerTable">
+      <tr>
+        <td>
+          <span id="slideTitle">Travel Slideshows Query</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table id="innerTable"><tr><td>
+            <span id="slideContent"></span>
+          </td></tr></table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button onclick="changePic(-1)" id="buttonPrev" title="Previous slide"><b>&#10094;</b></button>
+          <button onclick="toggleFlow(this)" id="buttonPlayPause" title="Pause">&#10074;&#10074;</button>
+          <button onclick="changePic(1)" id="buttonNext" title="Next slide"><b>&#10095;</b></button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span id="slideName">&nbsp;</span>
+        </td>
+      </tr>
+    </table>
+    <script>
+      // Code is placed here so that the necessary elements (slideTitle, slideContent, etc.) have
+      // been defined when it runs
+      verifyQueryPrereqs();
+    </script>
+  </body>
+</html>
