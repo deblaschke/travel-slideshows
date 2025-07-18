@@ -48,7 +48,7 @@ function getDescription(path) {
 
     // Append trip name if valid dir format
     var dir = path.match(/\/[0-9]{4}(-[0-9]{2})?[A-Z]{1}[A-Z0-9]*\//gi);
-    if (dir != null) {
+    if (result.length > 0 && dir != null) {
       var trip = "";
 
       // Get trip name from dir

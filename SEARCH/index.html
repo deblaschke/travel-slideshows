@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/slideshow.css">
     <script src="js/slideshow.js"></script>
     <script src="js/description_trip.js"></script>
-    <script src="SEARCH/all_slides.js"></script>
+    <script src="js/all_slides.js"></script>
     <style media="screen">
       input, select {
         font-family: Arial;
@@ -151,34 +151,34 @@
         if (inputText != null) {
           text = inputText.value;
           if (text != null && text.trim().length > 0) {
-             var cleanText = text.trim();
+            var cleanText = text.trim();
 
-             // Valid characters are initial '!', letters, digits and whitespace
-             if (!/^!?[0-9A-Za-z\s]+$/.test(cleanText)) {
-               invalidText = true;
-             } else {
-               // Handle negative search if indicated
-               var negativeSearch = false;
-               if (cleanText.charAt(0) == '!') {
-                 cleanText = cleanText.substring(1);
-                 negativeSearch = true;
-               }
+            // Valid characters are initial '!', letters, digits and whitespace
+            if (!/^!?[0-9A-Za-z\s]+$/.test(cleanText)) {
+              invalidText = true;
+            } else {
+              // Handle negative search if indicated
+              var negativeSearch = false;
+              if (cleanText.charAt(0) == '!') {
+                cleanText = cleanText.substring(1);
+                negativeSearch = true;
+              }
 
-               // Dynamically generate regex pattern for search
-               var textWords = cleanText.split(/\s+/);
-               var regexPattern = ".*";
-               for (var i = 0; i < textWords.length; i++) {
-                 regexPattern += (textWords[i] + ".*");
-               }
+              // Dynamically generate regex pattern for search
+              var textWords = cleanText.split(/\s+/);
+              var regexPattern = ".*";
+              for (var i = 0; i < textWords.length; i++) {
+                regexPattern += (textWords[i] + ".*");
+              }
 
-               // Perform case-insensitive search NOT including slide number
-               regexObj = new RegExp(regexPattern, 'i');
-               if (negativeSearch) {
-                 filtered_slides = filtered_slides.filter(slide => !regexObj.test(slide.file.substring(4)));
-               } else {
-                 filtered_slides = filtered_slides.filter(slide => regexObj.test(slide.file.substring(4)));
-               }
-             }
+              // Perform case-insensitive search NOT including slide number
+              var regexObj = new RegExp(regexPattern, 'i');
+              if (negativeSearch) {
+                filtered_slides = filtered_slides.filter(slide => !regexObj.test(slide.file.substring(4)));
+              } else {
+                filtered_slides = filtered_slides.filter(slide => regexObj.test(slide.file.substring(4)));
+              }
+            }
           } else {
             text = null;
           }

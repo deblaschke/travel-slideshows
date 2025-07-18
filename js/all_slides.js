@@ -1,4 +1,4 @@
-const all_slides = [
+var all_slides = [
   { "dir" : "1988Trip", "file" : "001_A021-02-Montezuma_Castle_National_Monument", "state" : "AZ", "style" : "width:95%;height:63%;" },
   { "dir" : "1988Trip", "file" : "002_A021-05-Courthouse_Butte", "state" : "AZ", "style" : "width:95%;height:63%;" },
   { "dir" : "1988Trip", "file" : "003_A021-06-Bell_Rock", "state" : "AZ", "style" : "width:95%;height:63%;" },
