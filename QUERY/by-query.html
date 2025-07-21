@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/slideshow.css">
     <script src="js/slideshow.js"></script>
     <script src="js/description_trip.js"></script>
-    <script src="js/all_slides.js"></script>
+    <script src="js/all_slides-wq.js"></script>
     <style media="screen">
       #slideContent {
         color: #D2B48C;
@@ -44,7 +44,7 @@
       //   attrs - filters on "attrs" key in all_slides object, i.e. "attrs=west fave";
       //     if attempting to filter using multiple attributes, they MUST be included in the
       //     following order:
-      //       region={east|rockies|west|overseas} compilation={grtlks|washdc} fave other={air|car|animal|flower|sun}...
+      //       region={east|overseas|rockies|west} compilation={grtlks|washdc} fave other={air|car|animal|fall|flower|reflect|sun|time}...
 
       var SLIDESHOW_REGION_EAST = [
         "1991Trip",
@@ -242,12 +242,12 @@
         ["WY", "Wyoming"]
       ]);
 
-      var queryHelp = '<p align=left>Please type one or more of the following query parameters in address bar above, then press enter:'+
+      var queryHelp = '<p align=left>Please type one or more of the following query parameters (as key-value pairs) in address bar above, then press enter:'+
                       '<table>'+
                       '<tr><td>trip</td><td>Name of trip, e.g. "trip=2014Trip" (case-sensitive)</td></tr>'+
                       '<tr><td>text</td><td>Search text, e.g. "text=state park"</td></tr>'+
                       '<tr><td>state&nbsp;&nbsp;</td><td>State abbreviation, e.g. "state=AZ"</td></tr>'+
-                      '<tr><td>attrs</td><td>Attribute(s) - east, rockies, west, overseas, animal, sun, air, and car, e.g. "attrs=rockies animal"</td></tr>'+
+                      '<tr><td>attrs</td><td>Attribute(s) - east, overseas, rockies, west, grtlks, washdc, animal, fall, flower, reflect, sun, time, air, and car, e.g. "attrs=rockies animal"</td></tr>'+
                       '<tr><td></td><td><br>For example, to see a slideshow of animals in Utah\'s "Mighty 5" national parks:<br>'+
                       '&nbsp;&nbsp;"/by-query.html?text=national park&state=UT&attrs=animal"</td></tr>'+
                       '</table>'
@@ -445,18 +445,19 @@
           if (urlParam != null) {
             if (/^[A-Za-z\s]+$/.test(urlParam)) {
               var words = urlParam.trim().split(/\s+/);
-              var invalidWord = null;
+              var validWords = "";
               for (var i = 0; i < words.length; i++) {
-                if (!["east","overseas","rockies","west","grtlks","washdc","fave","animal","flower","sun","air","car"].includes(words[i])) {
-                  invalidWord = words[i];
-                  break;
+                if (!["east","overseas","rockies","west","grtlks","washdc","fave","animal","fall","flower","reflect","sun","time","air","car"].includes(words[i])) {
+                  alert("Invalid attribute in attrs=\"" + words[i] + "\", ignored; valid attributes are east, overseas, rockies, west, grtlks, washdc, animal, fall, flower, reflect, sun, time, air, and car");
+                } else {
+                  validWords += words[i] + " ";
                 }
               }
-              if (invalidWord != null) {
-                alert("Invalid attribute in attrs=\"" + invalidWord + "\", ignored");
+
+              if (validWords.length == 0) {
                 inputAttrs = null;
               } else {
-                inputAttrs = urlParam;
+                inputAttrs = validWords;
               }
             } else {
               alert("Invalid character in attrs=\"" + urlParam + "\", ignored");
