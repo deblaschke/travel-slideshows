@@ -160,7 +160,8 @@ function showPic(n) {
   slideshowElems[slideIndex-1].style.display = "block";
 
   // Set slide description
-  document.getElementById("slideName").innerHTML = getDescription(slideshowElems[slideIndex-1].src);
+  document.getElementById("slideName").innerHTML = getDescription(slideshowElems[slideIndex-1].src); // PRODUCTION
+  // document.getElementById("slideName").innerHTML = getDescription(slideshowElems[slideIndex-1].src) + "<BR>[" + (slideshowElems[slideIndex-1].deb_attrs || '') + "]"; // DEBUG
 }
 
 // slideshow runs automatic slideshow

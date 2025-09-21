@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/slideshow.css">
     <script src="js/slideshow.js"></script>
     <script src="js/description_trip.js"></script>
-    <script src="js/all_slides-wq.js"></script>
+    <script src="js/all_slides.js"></script>
     <style media="screen">
       #slideContent {
         color: #D2B48C;
@@ -35,16 +35,49 @@
       // on query parameters, as opposed to those created statically in html files (i.e. a table of
       // '<img class="tripPix" ...>' elements.  This seems to run much faster (especially on GitHub
       // servers) and is much easier to maintain (just add new pictures to all_slides.js instead of
-      // slideshow.html, compilation html, state html, favorites html, etc.
+      // slideshow.html, compilation, state, favorites, etc.)
       //
       // Available query parameters to control filtering of pictures from all_slides.js:
       //   trip - matches "dir" key in all_slides object, i.e. "trip=1989Honeymoon"
-      //   text - filters on "file" key in all_slides object, i.e. "text=State Park"
+      //   text - filters on "file" key in all_slides object, i.e. "text=state park"
       //   state - matches "state" key in all_slides object, i.e. "state=TX"
-      //   attrs - filters on "attrs" key in all_slides object, i.e. "attrs=west fave";
-      //     if attempting to filter using multiple attributes, they MUST be included in the
-      //     following order:
-      //       region={east|overseas|rockies|west} compilation={grtlks|washdc} fave other={air|car|animal|fall|flower|reflect|sun|time}...
+      //   attrs - filters on "attrs" key in all_slides object, i.e. "attrs=west fave"
+      //
+      // The attrs parameter has the following format:
+      //   [region] [compilation] [fave] [other]... [mode]
+      // where:
+      //   region = east|overseas|rockies|west
+      //   compilation = grtlks|washdc
+      //   mode = air|rail|road|water
+
+      var validAttrs = [
+        "east", "overseas", "rockies", "west", // region - GitHub repo (choose at most one)
+        "grtlks", "washdc",                    // compilation - regional compilation (choose at most one)
+        "fave",                                // Dave's fave!
+        "air", "rail", "road", "water",        // mode -  transportation mode when picture taken (choose at most one)
+                                               // other - one or more of the following:
+        "animal",   // mammals, birds, insects, etc.
+        "fall",     // Autumn colors
+        "flower",   // flowers
+        "reflect",  // reflections
+        "sun",      // sunrise or sunset
+        "time",     // daytime time expsoure
+        "cloud",    // clouds not already in "sun" or "storm"
+        "rainbow",  // rainbows
+        "moon",     // moon
+        "beam",     // sunbeams
+        "storm",    // rain, lightning, funnels, etc.
+        "night",    // nighttime
+        "train",    // trains
+        "boat",     // boats
+        "plane",    // airplanes
+        "church",   // churches
+        "track",    // train tracks
+        "wind",     // windmills, windfarms
+        "backlit",  // backlit photos
+        "frame",    // framed
+        "smoke",    // smoke
+      ];
 
       var SLIDESHOW_REGION_EAST = [
         "1991Trip",
@@ -188,7 +221,7 @@
         ["2023Trip",          "2023 Summer Vacation"],
         ["2023SanAntonio",    "2023 Bowl Trip"],
         ["2024LosAngeles",    "2024 Concert Trip"],
-        ["2024-25Trip",       "2024-25 Winter Break"]
+        ["2024-25Trip",       "2024-25 Winter Break"],
       ]);
 
       var mapStateToTitleText = new Map([
@@ -239,7 +272,7 @@
         ["VA", "Virginia"],
         ["WA", "Washington"],
         ["WI", "Wisconsin"],
-        ["WY", "Wyoming"]
+        ["WY", "Wyoming"],
       ]);
 
       var queryHelp = '<p align=left>Please type one or more of the following query parameters (as key-value pairs) in address bar above, then press enter:'+
@@ -247,9 +280,8 @@
                       '<tr><td>trip</td><td>Name of trip, e.g. "trip=2014Trip" (case-sensitive)</td></tr>'+
                       '<tr><td>text</td><td>Search text, e.g. "text=state park"</td></tr>'+
                       '<tr><td>state&nbsp;&nbsp;</td><td>State abbreviation, e.g. "state=AZ"</td></tr>'+
-                      '<tr><td>attrs</td><td>Attribute(s) - east, overseas, rockies, west, grtlks, washdc, animal, fall, flower, reflect, sun, time, air, and car, e.g. "attrs=rockies animal"</td></tr>'+
-                      '<tr><td></td><td><br>For example, to see a slideshow of animals in Utah\'s "Mighty 5" national parks:<br>'+
-                      '&nbsp;&nbsp;"/by-query.html?text=national park&state=UT&attrs=animal"</td></tr>'+
+                      '<tr><td>attrs</td><td>Attribute(s) - east, overseas, rockies, west, grtlks, washdc, animal, fall, flower, etc., e.g. "attrs=rockies animal"</td></tr>'+
+                      '<tr><td></td><td><br>For example, to see a slideshow of animals in Utah\'s "Mighty 5" national parks:<br>&nbsp;&nbsp;"/by-query.html?text=national park&state=UT&attrs=animal"</td></tr>'+
                       '</table>'
                       '</p>';
 
@@ -320,7 +352,8 @@
           }
         }
 
-        // DEBUG alert("There are " + filtered_slides.length + " pictures in this slideshow");
+        // DEBUG> Display number of filtered slides
+        // console.log("There are " + filtered_slides.length + " pictures in this slideshow");
 
         var targetElement = document.getElementById("slideContent");
 
@@ -447,7 +480,7 @@
               var words = urlParam.trim().split(/\s+/);
               var validWords = "";
               for (var i = 0; i < words.length; i++) {
-                if (!["east","overseas","rockies","west","grtlks","washdc","fave","animal","fall","flower","reflect","sun","time","air","car"].includes(words[i])) {
+                if (!validAttrs.includes(words[i])) {
                   alert("Invalid attribute in attrs=\"" + words[i] + "\", ignored; valid attributes are east, overseas, rockies, west, grtlks, washdc, animal, fall, flower, reflect, sun, time, air, and car");
                 } else {
                   validWords += words[i] + " ";
