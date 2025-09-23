@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="css/slideshow.css">
     <script src="js/slideshow.js"></script>
     <script src="js/description_trip.js"></script>
+    <script src="js/all_trips.js"></script>
     <script src="js/all_slides.js"></script>
+    <script src="js/all_states.js"></script>
     <style media="screen">
       #slideContent {
         color: #D2B48C;
@@ -79,201 +81,13 @@
         "smoke",    // smoke
       ];
 
-      var SLIDESHOW_REGION_EAST = [
-        "1991Trip",
-        "1991FallFoliage",
-        "1992Trip",
-        "1992FallFoliage",
-        "1998Trip",
-        "1999Trip",
-        "2002Trip",
-        "2004Trip",
-        "2006Trip",
-        "2008Trip",
-        "2010Wisconsin",
-        "2012Trip",
-        "2013-14Florida",
-        "2014WashDC",
-        "2016WashDC",
-        "2016Trip",
-        "2018Trip",
-        "2018-19Florida",
-        "2020Trip",
-        "2022Trip",
-        "2023SanAntonio",
-      ];
-
-      var SLIDESHOW_REGION_ROCK = [
-        "1990Colorado",
-        "1995Trip",
-        "1998Colorado",
-        "2005Trip",
-        "2007Colorado",
-        "2009Trip",
-        "2011Trip",
-        "2014Trip",
-        "2015Trip",
-        "2015NewMexico",
-        "2017Trip",
-        "2018Colorado",
-        "2019Trip",
-        "2021Colorado",
-        "2022Colorado",
-        "2023Trip",
-      ];
-
-      var SLIDESHOW_REGION_WEST = [
-        "1988Trip",
-        "1990Trip",
-        "1992OS2Trip",
-        "1993Trip",
-        "1993Homecoming",
-        "1996-97RoseParade",
-        "1998Homecoming",
-        "2001Trip",
-        "2007Trip",
-        "2010Trip",
-        "2013Trip",
-        "2014-15Arizona",
-        "2016Alaska",
-        "2021Trip",
-        "2024LosAngeles",
-        "2024-25Trip",
-      ];
-
-      var SLIDESHOW_REGION_OVERSEAS = [
-        "1989Honeymoon",
-        "2016Berlin",
-        "2017Dusseldorf",
-        "2018Dusseldorf",
-        "2019Berlin",
-        "2019Cologne",
-      ];
-
       function getRegion(dir) {
         var region = "";
-        if (SLIDESHOW_REGION_EAST.includes(dir)) {
-          region = "https://deblaschke.github.io/travel-slideshows-east";
-        } else if (SLIDESHOW_REGION_ROCK.includes(dir)) {
-          region = "https://deblaschke.github.io/travel-slideshows-rockies";
-        } else if (SLIDESHOW_REGION_WEST.includes(dir)) {
-          region = "https://deblaschke.github.io/travel-slideshows-west";
-        } else if (SLIDESHOW_REGION_OVERSEAS.includes(dir)) {
-          region = "https://deblaschke.github.io/travel-slideshows-overseas";
+        if (all_trips.has(dir)) {
+          region = "https://deblaschke.github.io/travel-slideshows-" + all_trips.get(dir).region;
         }
         return region;
       }
-
-      var mapTripToTitleText = new Map([
-        ["1988Trip",          "1988 Spring Break"],
-        ["1989Honeymoon",     "1989 Honeymoon"],
-        ["1990Colorado",      "1990 Spring Vacation"],
-        ["1990Trip",          "1990 Autumn Vacation"],
-        ["1991Trip",          "1991 Spring Vacation"],
-        ["1991FallFoliage",   "1991 Autumn Vacation"],
-        ["1992Trip",          "1992 Summer Vacation"],
-        ["1992OS2Trip",       "1992 Business Trip"],
-        ["1992FallFoliage",   "1992 Autumn Vacation"],
-        ["1993Trip",          "1993 Spring Vacation"],
-        ["1993Homecoming",    "1993 Autumn Vacation"],
-        ["1995Trip",          "1995 Summer Vacation"],
-        ["1996-97RoseParade", "1996-97 Winter Vacation"],
-        ["1998Colorado",      "1998 Summer Vacation I"],
-        ["1998Trip",          "1998 Summer Vacation II"],
-        ["1998Homecoming",    "1998 Autumn Vacation"],
-        ["1999Trip",          "1999 Autumn Vacation"],
-        ["2001Trip",          "2001 Spring Vacation"],
-        ["2002Trip",          "2002 Summer Vacation"],
-        ["2004Trip",          "2004 Summer Vacation"],
-        ["2005Trip",          "2005 Summer Vacation"],
-        ["2006Trip",          "2006 Summer Vacation"],
-        ["2007Trip",          "2007 Summer Vacation I"],
-        ["2007Colorado",      "2007 Summer Vacation II"],
-        ["2008Trip",          "2008 Summer Vacation"],
-        ["2009Trip",          "2009 Summer Vacation"],
-        ["2010Trip",          "2010 Summer Vacation I"],
-        ["2010Wisconsin",     "2010 Summer Vacation II"],
-        ["2011Trip",          "2011 Summer Vacation"],
-        ["2012Trip",          "2012 Summer Vacation"],
-        ["2013Trip",          "2013 Summer Vacation"],
-        ["2013-14Florida",    "2013-14 Winter Break"],
-        ["2014WashDC",        "2014 Spring Break"],
-        ["2014Trip",          "2014 Summer Vacation"],
-        ["2014-15Arizona",    "2014-15 Winter Break"],
-        ["2015Trip",          "2015 Summer Vacation"],
-        ["2015NewMexico",     "2015 Winter Break"],
-        ["2016WashDC",        "2016 Spring Break"],
-        ["2016Alaska",        "2016 Summer Vacation I"],
-        ["2016Trip",          "2016 Summer Vacation II"],
-        ["2016Berlin",        "2016 Business Trip"],
-        ["2017Trip",          "2017 Summer Vacation"],
-        ["2018Colorado",      "2018 Spring Break"],
-        ["2018Trip",          "2018 Summer Vacation"],
-        ["2018-19Florida",    "2018-19 Winter Break"],
-        ["2019Berlin",        "2019 Business Trip I"],
-        ["2019Trip",          "2019 Summer Vacation"],
-        ["2019Cologne",       "2019 Business Trip II"],
-        ["2020Trip",          "2020 Summer Vacation"],
-        ["2021Trip",          "2021 Summer Vacation"],
-        ["2021Colorado",      "2021 Autumn Vacation"],
-        ["2022Colorado",      "2022 Spring Vacation"],
-        ["2022Trip",          "2022 Summer Vacation"],
-        ["2023Trip",          "2023 Summer Vacation"],
-        ["2023SanAntonio",    "2023 Bowl Trip"],
-        ["2024LosAngeles",    "2024 Concert Trip"],
-        ["2024-25Trip",       "2024-25 Winter Break"],
-      ]);
-
-      var mapStateToTitleText = new Map([
-        ["AL", "Alabama"],
-        ["AK", "Alaska"],
-        ["AZ", "Arizona"],
-        ["AR", "Arkansas"],
-        ["CA", "California"],
-        ["CO", "Colorado"],
-        ["CT", "Connecticut"],
-        ["DC", "District of Columbia"],
-        ["FL", "Florida"],
-        ["GA", "Georgia"],
-        ["ID", "Idaho"],
-        ["IL", "Illinois"],
-        ["IN", "Indiana"],
-        ["IA", "Iowa"],
-        ["KS", "Kansas"],
-        ["KY", "Kentucky"],
-        ["LA", "Louisiana"],
-        ["ME", "Maine"],
-        ["MD", "Maryland"],
-        ["MA", "Massachusetts"],
-        ["MI", "Michigan"],
-        ["MN", "Minnesota"],
-        ["MS", "Mississippi"],
-        ["MO", "Missouri"],
-        ["MT", "Montana"],
-        ["NE", "Nebraska"],
-        ["NV", "Nevada"],
-        ["NH", "New Hampshire"],
-        ["NJ", "New Jersey"],
-        ["NM", "New Mexico"],
-        ["NY", "New York"],
-        ["NC", "North Carolina"],
-        ["ND", "North Dakota"],
-        ["OH", "Ohio"],
-        ["OK", "Oklahoma"],
-        ["OR", "Oregon"],
-        ["PA", "Pennsylvania"],
-        ["RI", "Rhode Island"],
-        ["SC", "South Carolina"],
-        ["SD", "South Dakota"],
-        ["TN", "Tennessee"],
-        ["TX", "Texas"],
-        ["UT", "Utah"],
-        ["VT", "Vermont"],
-        ["VA", "Virginia"],
-        ["WA", "Washington"],
-        ["WI", "Wisconsin"],
-        ["WY", "Wyoming"],
-      ]);
 
       var queryHelp = '<p align=left>Please type one or more of the following query parameters (as key-value pairs) in address bar above, then press enter:'+
                       '<table>'+
@@ -300,8 +114,8 @@
           filtered_slides = filtered_slides.filter(slide => slide.dir == trip);
 
           // Provide title info if none yet provided
-          if (titleText == null && titleSlide == null && mapTripToTitleText.has(trip)) {
-            titleText = mapTripToTitleText.get(trip);
+          if (titleText == null && titleSlide == null && all_trips.has(trip)) {
+            titleText = all_trips.get(trip).title;
             titleSlide = getRegion(trip) + "/" + trip + "/title.jpg";
           }
         }
@@ -311,8 +125,8 @@
           filtered_slides = filtered_slides.filter(slide => slide.state == state);
 
           // Provide title info if none yet provided
-          if (titleText == null && titleSlide == null && mapStateToTitleText.has(state)) {
-              titleText = mapStateToTitleText.get(state);
+          if (titleText == null && titleSlide == null && all_states.has(state)) {
+              titleText = all_states.get(state).name;
               titleSlide = "STATES/title_" + state + ".jpg";
           }
         }
@@ -442,7 +256,7 @@
           // Handle search trip query parameter
           var urlParam = urlParams.get('trip');
           if (urlParam != null) {
-            if (mapTripToTitleText.has(urlParam)) {
+            if (all_trips.has(urlParam)) {
               inputTrip = urlParam;
             } else {
               alert("Invalid trip=\"" + urlParam + "\", ignored");
@@ -464,8 +278,9 @@
           // Handle search state query parameter
           urlParam = urlParams.get('state');
           if (urlParam != null) {
-            if (mapStateToTitleText.has(urlParam.toUpperCase()) ||
-                ["AB","BC","ON","QC","BRB","ENG","DEU","GRL","PRI","SCT"].includes(urlParam.toUpperCase())) {
+            if (all_states.has(urlParam.toUpperCase()) ||
+                all_states_canada.has(urlParam.toUpperCase()) ||
+                all_states_other.has(urlParam.toUpperCase())) {
               inputState = urlParam.toUpperCase();
             } else {
               alert("Invalid state=\"" + urlParam + "\", ignored");
