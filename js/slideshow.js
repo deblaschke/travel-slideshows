@@ -166,42 +166,42 @@ function preloadSlideshow(targetElement, titleSlide, filtered_slides) {
 
 // loadSlideshow asynchronously adds non-preloaded slides and credits to slideshow
 async function loadSlideshow(targetElement, filtered_slides) {
-    var imgElem;
+  var imgElem;
 
-    // Add matching slides to slideshow, if any
-    for (var i = SLIDESHOW_PRELOAD; i < filtered_slides.length; i++) {
-      var slide = filtered_slides[i];
-      imgElem = document.createElement('img');
-      imgElem.src = getRegion(slide.dir) + "/" + slide.dir + "/" + slide.file + ".jpg";
-      imgElem.alt = 'Slide';
-      // DEBUG: Uncomment following line along with 'document.getElementById("slideName").innerHTML =' lines below
-      // imgElem.deb_attrs = slide.attrs;
-      imgElem.className = 'tripPix';
-      imgElem.style = slide.style;
-      targetElement.appendChild(imgElem);
-    }
-
-    // Add credits to slideshow
+  // Add matching slides to slideshow, if any
+  for (var i = SLIDESHOW_PRELOAD; i < filtered_slides.length; i++) {
+    var slide = filtered_slides[i];
     imgElem = document.createElement('img');
-    imgElem.src = "images/theend1.jpg";
+    imgElem.src = getRegion(slide.dir) + "/" + slide.dir + "/" + slide.file + ".jpg";
+    imgElem.alt = 'Slide';
+    // DEBUG: Uncomment following line along with 'document.getElementById("slideName").innerHTML =' lines below
+    // imgElem.deb_attrs = slide.attrs;
+    imgElem.className = 'tripPix';
+    imgElem.style = slide.style;
+    targetElement.appendChild(imgElem);
+  }
+
+  // Add credits to slideshow
+  imgElem = document.createElement('img');
+  imgElem.src = "images/theend1.jpg";
+  imgElem.alt = "Credit";
+  imgElem.className = "tripPix";
+  imgElem.style = "width:95%;height:71%;";
+  targetElement.appendChild(imgElem);
+  imgElem = document.createElement('img');
+  imgElem.src = "images/theend2.jpg";
+  imgElem.alt = "Credit";
+  imgElem.className = "tripPix";
+  imgElem.style = "width:95%;height:71%;";
+  targetElement.appendChild(imgElem);
+  if (SLIDESHOW_AUDIO) {
+    imgElem = document.createElement('img');
+    imgElem.src = "images/theend3.jpg";
     imgElem.alt = "Credit";
     imgElem.className = "tripPix";
     imgElem.style = "width:95%;height:71%;";
     targetElement.appendChild(imgElem);
-    imgElem = document.createElement('img');
-    imgElem.src = "images/theend2.jpg";
-    imgElem.alt = "Credit";
-    imgElem.className = "tripPix";
-    imgElem.style = "width:95%;height:71%;";
-    targetElement.appendChild(imgElem);
-    if (SLIDESHOW_AUDIO) {
-      imgElem = document.createElement('img');
-      imgElem.src = "images/theend3.jpg";
-      imgElem.alt = "Credit";
-      imgElem.className = "tripPix";
-      imgElem.style = "width:95%;height:71%;";
-      targetElement.appendChild(imgElem);
-    }
+  }
 }
 
 // reduceSlideshow removes elements from slideshowElems that are outside specified from/to range
