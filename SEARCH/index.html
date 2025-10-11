@@ -6,7 +6,6 @@
     <title>Travel Slideshows Search</title>
     <link rel="stylesheet" href="css/slideshow.css">
     <script src="js/slideshow.js"></script>
-    <script src="js/description_trip.js"></script>
     <script src="js/all_trips.js"></script>
     <script src="js/all_slides.js"></script>
     <script src="js/all_states.js"></script>
@@ -147,50 +146,11 @@
             targetElement.removeChild(targetElement.lastChild);
           }
 
-          // Add title to slideshow
-          var imgElem = document.createElement('img');
-          imgElem.src = "SEARCH/title.jpg";
-          imgElem.alt = "Title";
-          imgElem.className = "tripPix";
-          imgElem.style = "width:95%;height:71%;";
-          targetElement.appendChild(imgElem);
+          // Synchronously add title and preloaded slides to slideshow
+          preloadSlideshow(targetElement, "SEARCH/title.jpg", filtered_slides);
 
-          // Add matching slides to slideshow
-          filtered_slides.forEach(function(slide) {
-            var region = "";
-            if (all_trips.has(slide.dir)) {
-              region = "https://deblaschke.github.io/travel-slideshows-" + all_trips.get(slide.dir).region;
-            }
-
-            imgElem = document.createElement('img');
-            imgElem.src = region + "/" + slide.dir + "/" + slide.file + ".jpg";
-            imgElem.alt = 'Slide';
-            imgElem.className = 'tripPix';
-            imgElem.style = slide.style;
-            targetElement.appendChild(imgElem);
-          });
-
-          // Add credits to slideshow
-          imgElem = document.createElement('img');
-          imgElem.src = "images/theend1.jpg";
-          imgElem.alt = "Credit";
-          imgElem.className = "tripPix";
-          imgElem.style = "width:95%;height:71%;";
-          targetElement.appendChild(imgElem);
-          imgElem = document.createElement('img');
-          imgElem.src = "images/theend2.jpg";
-          imgElem.alt = "Credit";
-          imgElem.className = "tripPix";
-          imgElem.style = "width:95%;height:71%;";
-          targetElement.appendChild(imgElem);
-          if (SLIDESHOW_AUDIO) {
-            imgElem = document.createElement('img');
-            imgElem.src = "images/theend3.jpg";
-            imgElem.alt = "Credit";
-            imgElem.className = "tripPix";
-            imgElem.style = "width:95%;height:71%;";
-            targetElement.appendChild(imgElem);
-          }
+          // Asynchronously add non-preloaded slides and credits to slideshow
+          loadSlideshow(targetElement, filtered_slides);
 
           // Set number of slides in search results
           document.getElementById("searchResults").innerHTML = "&nbsp;<b>(" + filtered_slides.length + "/" + all_slides.length + " photos)</b>";

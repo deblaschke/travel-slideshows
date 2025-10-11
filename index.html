@@ -33,6 +33,9 @@
         z-index: 1;
         cursor: pointer;
       }
+      .hrTable-selectable, .hrTable {
+        border-collapse: collapse;
+      }
     </style>
     <script>
       // Keeps track of HTML element and display state
@@ -59,6 +62,7 @@
         // Set section header (include down arrow for collapsed, up arrow for expanded) if available
         if (mapObj.elem) {
           mapObj.elem.innerHTML = "&nbsp;" + (mapObj.display == "none" ? "&#9660;" : "&#9650;");
+          mapObj.elem.title = (mapObj.display == "none" ? "Expand section" : "Collapse section" );
         }
       }
 
@@ -593,7 +597,7 @@
                 <span class="menu-item-txt-date">June 10-July 1</span><br>
                 <span class="menu-item-txt-pics">329 photos</span>
                 <span class="menu-item-txt-size">&nbsp;(101MB)</span><br><br>
-                <span class="menu-item-txt-hilite"><b>Highlights:</b> Monument Valley, Valley of the Gods, Arches, Canyonlands, Goblin Valley, Capitol Reef, Bryce Canyon, Cedar Breaks, Grand Canyon, Zion, Saguaro</span><br>
+                <span class="menu-item-txt-hilite"><b>Highlights:</b> Monument Valley, Valley of the Gods, Arches, Canyonlands, Goblin Valley, Capitol Reef, Bryce Canyon, Cedar Breaks, Grand Canyon North Rim, Zion, Saguaro</span><br>
                 <span class="menu-item-txt-camera"><b>Camera:</b> Panasonic DMC-FZ5 (E)</span>
               </td>
             </tr>
@@ -1282,7 +1286,7 @@
             <tr>
               <td class="menu-item-img" title="View slideshow">
                 <!--<img src="images/backgrnd.jpg" width="200" height="150" border="0" alt=""><br>-->
-              </a></td>
+              </td>
               <td class="menu-item-txt">
                 <span class="menu-item-txt-trip">Based on Geography</span><br>
                 <span class="menu-item-txt-pics">
@@ -1293,6 +1297,54 @@
                   * <a href="QUERY/by-query.html?attrs=washdc&titleText=Washington,%20D.C.%20Area&titleSlide=MULTIYR%2Ftitle_washingtondc.jpg" target="_blank">Washington, D.C. Area</a> (223 photos from 3 trips - 57MB)<br>
                   * <a href="QUERY/by-query.html?text=Yellowstone%20National%20Park&titleText=Yellowstone%20National%20Park&titleSlide=MULTIYR%2Ftitle_yellowstone.jpg" target="_blank">Yellowstone National Park</a> (1001 photos from 6 trips - 271MB)<br>
                   * <a href="QUERY/by-query.html?text=Yosemite%20National%20Park&titleText=Yosemite%20National%20Park&titleSlide=MULTIYR%2Ftitle_yosemite.jpg" target="_blank">Yosemite National Park</a> (399 photos from 3 trips - 113MB)<br>
+                </span><br>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="menu-item-img" title="View slideshow">
+                <!--<img src="images/backgrnd.jpg" width="200" height="150" border="0" alt=""><br>-->
+              </td>
+              <td class="menu-item-txt">
+                <span class="menu-item-txt-trip">Based on Subjects & Attributes</span><br>
+                <span class="menu-item-txt-pics">
+                  * It's a livin' thing -
+                  <a href="QUERY/by-query.html?attrs=animal" target="_blank">animals</a>,
+                  <a href="QUERY/by-query.html?attrs=flower" target="_blank">flowers</a>, or
+                  <a href="QUERY/by-query.html?attrs=fall" target="_blank">Fall colors</a><br>
+                  * Sweet beginnings and endings -
+                  <a href="QUERY/by-query.html?attrs=sun" target="_blank">sunrises and sunsets</a><br>
+                  * Atmospheric phenomena -
+                  <a href="QUERY/by-query.html?attrs=storm" target="_blank">storms</a>,
+                  <a href="QUERY/by-query.html?attrs=rainbow" target="_blank">rainbows</a>,
+                  <a href="QUERY/by-query.html?attrs=beam" target="_blank">sunbeams</a>,
+                  <a href="QUERY/by-query.html?attrs=fog" target="_blank">fog</a>,
+                  <a href="QUERY/by-query.html?attrs=smoke" target="_blank">smoke</a>,
+                  <a href="QUERY/by-query.html?attrs=whirl" target="_blank">whirlwinds</a>, or
+                  <a href="QUERY/by-query.html?attrs=cloud" target="_blank">clouds</a><br>
+                  * Time exposed -
+                  <a href="QUERY/by-query.html?attrs=time" target="_blank">daytime</a> or
+                  <a href="QUERY/by-query.html?attrs=night" target="_blank">nighttime</a><br>
+                  * Favorite subjects -
+                  <a href="QUERY/by-query.html?attrs=barn" target="_blank">barns</a>,
+                  <a href="QUERY/by-query.html?attrs=church" target="_blank">churches</a>,
+                  <a href="QUERY/by-query.html?attrs=moon" target="_blank">Moon</a>,
+                  <a href="QUERY/by-query.html?attrs=reflect" target="_blank">reflections</a>,
+                  <a href="QUERY/by-query.html?attrs=track" target="_blank">train tracks</a>,
+                  <a href="QUERY/by-query.html?attrs=wind" target="_blank">windmills, windpumps and windfarms</a>,
+                  <a href="QUERY/by-query.html?attrs=train" target="_blank">trains</a>,
+                  <a href="QUERY/by-query.html?attrs=boat" target="_blank">boats</a>, or
+                  <a href="QUERY/by-query.html?attrs=plane" target="_blank">airplanes</a><br>
+                  * Unique techniques -
+                  <a href="QUERY/by-query.html?attrs=backlit" target="_blank">backlit</a>,
+                  <a href="QUERY/by-query.html?attrs=frame" target="_blank">framed</a>, or
+                  <a href="QUERY/by-query.html?attrs=shadow" target="_blank">shadow</a><br>
+                  * Moving pictures -
+                  taken from <a href="QUERY/by-query.html?attrs=air" target="_blank">air</a>,
+                  <a href="QUERY/by-query.html?attrs=rail" target="_blank">rail</a>,
+                  <a href="QUERY/by-query.html?attrs=road" target="_blank">road</a>, or
+                  <a href="QUERY/by-query.html?attrs=water" target="_blank">water</a><br>
+                  * <a href="QUERY/by-query.html" target="_blank">Do-it-yourself</a><br>
                 </span><br>
               </td>
             </tr>

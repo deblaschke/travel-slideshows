@@ -6,7 +6,6 @@
     <title>Travel Slideshows Query</title>
     <link rel="stylesheet" href="css/slideshow.css">
     <script src="js/slideshow.js"></script>
-    <script src="js/description_trip.js"></script>
     <script src="js/all_trips.js"></script>
     <script src="js/all_slides.js"></script>
     <script src="js/all_states.js"></script>
@@ -59,42 +58,38 @@
         "air", "rail", "road", "water",        // mode -  transportation mode when picture taken (choose at most one)
                                                // other - one or more of the following:
         "animal",   // mammals, birds, insects, etc.
-        "fall",     // Autumn colors
-        "flower",   // flowers
-        "reflect",  // reflections
-        "sun",      // sunrise or sunset
-        "time",     // daytime time expsoure
-        "cloud",    // clouds not already in "sun" or "storm"
-        "rainbow",  // rainbows
-        "moon",     // moon
+        "backlit",  // backlit
+        "barn",     // barns
         "beam",     // sunbeams
-        "storm",    // rain, lightning, funnels, etc.
-        "night",    // nighttime
-        "train",    // trains
         "boat",     // boats
-        "plane",    // airplanes
+        "fall",     // Autumn colors
         "church",   // churches
-        "track",    // train tracks
-        "wind",     // windmills, windfarms
-        "backlit",  // backlit photos
+        "cloud",    // clouds not already in "sun" or "storm"
+        "flower",   // flowers
+        "fog",      // fog
         "frame",    // framed
+        "moon",     // moon
+        "night",    // nighttime/sundown time exposure
+        "plane",    // airplanes
+        "rainbow",  // rainbows
+        "reflect",  // reflections
+        "shadow",   // shadows
         "smoke",    // smoke
+        "storm",    // rain, lightning, funnels, etc.
+        "sun",      // sunrise or sunset
+        "track",    // train tracks
+        "time",     // daytime/sunup time expsoure
+        "train",    // trains
+        "whirl",    // dust devils, funnels
+        "wind",     // windmills, windpumps, windfarms
       ];
-
-      function getRegion(dir) {
-        var region = "";
-        if (all_trips.has(dir)) {
-          region = "https://deblaschke.github.io/travel-slideshows-" + all_trips.get(dir).region;
-        }
-        return region;
-      }
 
       var queryHelp = '<p align=left>Please type one or more of the following query parameters (as key-value pairs) in address bar above, then press enter:'+
                       '<table>'+
                       '<tr><td>trip</td><td>Name of trip, e.g. "trip=2014Trip" (case-sensitive)</td></tr>'+
                       '<tr><td>text</td><td>Search text, e.g. "text=state park"</td></tr>'+
                       '<tr><td>state&nbsp;&nbsp;</td><td>State abbreviation, e.g. "state=AZ"</td></tr>'+
-                      '<tr><td>attrs</td><td>Attribute(s) - east, overseas, rockies, west, grtlks, washdc, animal, fall, flower, etc., e.g. "attrs=rockies animal"</td></tr>'+
+                      '<tr><td>attrs</td><td>Attribute(s) - ' + validAttrs.join(", ") + ', e.g. "attrs=rockies animal"</td></tr>'+
                       '<tr><td></td><td><br>For example, to see a slideshow of animals in Utah\'s "Mighty 5" national parks:<br>&nbsp;&nbsp;"/by-query.html?text=national park&state=UT&attrs=animal"</td></tr>'+
                       '</table>'
                       '</p>';
@@ -191,45 +186,11 @@
 
         // Query results just right, start slideshow
         else {
-          // Add title to slideshow
-          var imgElem = document.createElement('img');
-          imgElem.src = titleSlide == null ? "QUERY/title.jpg" : titleSlide;
-          imgElem.alt = "Title";
-          imgElem.className = "tripPix";
-          imgElem.style = "width:95%;height:71%;";
-          targetElement.appendChild(imgElem);
+          // Synchronously add title and preloaded slides to slideshow
+          preloadSlideshow(targetElement, titleSlide, filtered_slides);
 
-          // Add matching slides to slideshow
-          filtered_slides.forEach(function(slide) {
-            imgElem = document.createElement('img');
-            imgElem.src = getRegion(slide.dir) + "/" + slide.dir + "/" + slide.file + ".jpg";
-            imgElem.alt = 'Slide';
-            imgElem.className = 'tripPix';
-            imgElem.style = slide.style;
-            targetElement.appendChild(imgElem);
-          });
-
-          // Add credits to slideshow
-          imgElem = document.createElement('img');
-          imgElem.src = "images/theend1.jpg";
-          imgElem.alt = "Credit";
-          imgElem.className = "tripPix";
-          imgElem.style = "width:95%;height:71%;";
-          targetElement.appendChild(imgElem);
-          imgElem = document.createElement('img');
-          imgElem.src = "images/theend2.jpg";
-          imgElem.alt = "Credit";
-          imgElem.className = "tripPix";
-          imgElem.style = "width:95%;height:71%;";
-          targetElement.appendChild(imgElem);
-          if (SLIDESHOW_AUDIO) {
-            imgElem = document.createElement('img');
-            imgElem.src = "images/theend3.jpg";
-            imgElem.alt = "Credit";
-            imgElem.className = "tripPix";
-            imgElem.style = "width:95%;height:71%;";
-            targetElement.appendChild(imgElem);
-          }
+          // Asynchronously add non-preloaded slides and credits to slideshow
+          loadSlideshow(targetElement, filtered_slides);
 
           // Initiate slideshow
           slideIndex = 0;
@@ -296,7 +257,7 @@
               var validWords = "";
               for (var i = 0; i < words.length; i++) {
                 if (!validAttrs.includes(words[i])) {
-                  alert("Invalid attribute in attrs=\"" + words[i] + "\", ignored; valid attributes are east, overseas, rockies, west, grtlks, washdc, animal, fall, flower, reflect, sun, time, air, and car");
+                  alert("Invalid attribute in attrs=\"" + words[i] + "\", ignored; valid attributes are " + validAttrs.join(", "));
                 } else {
                   validWords += words[i] + " ";
                 }
