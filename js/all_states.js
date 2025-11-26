@@ -7,7 +7,7 @@ var all_states = new Map([
   [ "CO", { "name" : "Colorado" }],
   [ "CT", { "name" : "Connecticut" }],
   [ "DC", { "name" : "District of Columbia" }],
-//[ "DE", { "name" : "Delaware" }],
+  [ "DE", { "name" : "Delaware" }],
   [ "FL", { "name" : "Florida" }],
   [ "GA", { "name" : "Georgia" }],
 //[ "HI", { "name" : "Hawaii" }],
