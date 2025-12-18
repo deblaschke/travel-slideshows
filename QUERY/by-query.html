@@ -274,6 +274,64 @@
             }
           }
 
+          // Handle undocumented compilations query parameter
+          urlParam = urlParams.get('comp');
+          if (urlParam != null) {
+            switch (urlParam) {
+              case 'fave':
+                inputAttrs = "fave";
+                urlParams.set("titleText", "Dave's Faves");
+                urlParams.set("titleSlide", "MULTIYR/title_faves.jpg");
+                break;
+              case 'germany':
+                inputState = "DEU";
+                urlParams.set("titleText", "Germany");
+                urlParams.set("titleSlide", "MULTIYR/title_germany.jpg");
+                break;
+              case 'glacier':
+                inputText = "Glacier National Park";
+                inputState = "MT";
+                urlParams.set("titleText", "Glacier National Park");
+                urlParams.set("titleSlide", "MULTIYR/title_glacier.jpg");
+                break;
+              case 'grtlks':
+                inputAttrs = "grtlks";
+                urlParams.set("titleText", "Great Lakes Region");
+                urlParams.set("titleSlide", "MULTIYR/title_greatlakes.jpg");
+                break;
+              case 'mighty5':
+                inputText = "National Park";
+                inputState = "UT";
+                urlParams.set("titleText", "Utah's Mighty 5");
+                urlParams.set("titleSlide", "MULTIYR/title_mighty5.jpg");
+                break;
+              case 'washdc':
+                inputAttrs = "washdc";
+                urlParams.set("titleText", "Washington, D.C. Area");
+                urlParams.set("titleSlide", "MULTIYR/title_washingtondc.jpg");
+                break;
+              case 'yellowstone':
+                inputText = "Yellowstone National Park";
+                urlParams.set("titleText", "Yellowstone National Park");
+                urlParams.set("titleSlide", "MULTIYR/title_yellowstone.jpg");
+                break;
+              case 'yosemite':
+                inputText = "Yosemite National Park";
+                urlParams.set("titleText", "Yosemite National Park");
+                urlParams.set("titleSlide", "MULTIYR/title_yosemite.jpg");
+                break;
+              default:
+                alert("Invalid comp=\"" + urlParam + "\", ignored");
+                break;
+            }
+          }
+
+          // Silently disable from/to query parameters if trip not specified
+          if (inputTrip == null && (SLIDESHOW_INDEX_FROM != -1 || SLIDESHOW_INDEX_TO != -1)) {
+            SLIDESHOW_INDEX_FROM = -1;
+            SLIDESHOW_INDEX_TO = -1;
+          }
+
           // Run slideshow if at least one valid query parameter
           if (inputTrip != null || inputText != null || inputState != null || inputAttrs != null) {
             slideshowQuery(inputTrip, inputText, inputState, inputAttrs, urlParams.get("titleText"), urlParams.get("titleSlide"));
