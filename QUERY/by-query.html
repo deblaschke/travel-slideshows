@@ -266,7 +266,7 @@
               if (validWords.length == 0) {
                 inputAttrs = null;
               } else {
-                inputAttrs = validWords;
+                inputAttrs = validWords.trim();
               }
             } else {
               alert("Invalid character in attrs=\"" + urlParam + "\", ignored");
@@ -279,7 +279,12 @@
           if (urlParam != null) {
             switch (urlParam) {
               case 'fave':
-                inputAttrs = "fave";
+                // Special case regional faves
+                if (["east","overseas","rockies","west"].includes(inputAttrs)) {
+                  inputAttrs += " fave";
+                } else {
+                  inputAttrs = "fave";
+                }
                 urlParams.set("titleText", "Dave's Faves");
                 urlParams.set("titleSlide", "MULTIYR/title_faves.jpg");
                 break;

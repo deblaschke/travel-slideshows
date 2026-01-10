@@ -58,4 +58,5 @@ var all_trips = new Map([
   [ "2023SanAntonio",    { "title" : "2023 Bowl Trip", "region" : "east" }],
   [ "2024LosAngeles",    { "title" : "2024 Concert Trip", "region" : "west" }],
   [ "2024-25Trip",       { "title" : "2024-25 Winter Break", "region" : "west" }],
+  [ "2025-26SanDiego",   { "title" : "2025-26 Bowl Trip", "region" : "west" }],
 ]);
