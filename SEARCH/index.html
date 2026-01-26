@@ -285,6 +285,12 @@
     <script>
       // Code is placed here so that the necessary elements (searchResults, inputText, etc.) have
       // been defined when it runs
+      document.getElementById("inputText").addEventListener("keydown", (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          slideshowSearch();
+        }
+      });
       addDropdownElements(document.getElementById("inputState"));
       verifySearchPrereqs();
     </script>
