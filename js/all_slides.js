@@ -7745,7 +7745,7 @@ var all_slides = [
   { "dir" : "2021Trip", "file" : "396_N1310910-Crater_Lake_National_Park", "state" : "OR", "attrs" : "west", "style" : "width:95%;height:71%;" },
   { "dir" : "2021Trip", "file" : "397_N1310923-Crater_Lake_National_Park", "state" : "OR", "attrs" : "west flower", "style" : "height:95%;width:71%;" },
   { "dir" : "2021Trip", "file" : "398_N1310925-Crater_Lake_National_Park", "state" : "OR", "attrs" : "west", "style" : "width:95%;height:71%;" },
-  { "dir" : "2021Trip", "file" : "399_N1310943-Mount_Thielsen", "state" : "OR", "attrs" : "west smoke", "style" : "width:95%;height:71%;" },
+  { "dir" : "2021Trip", "file" : "399_N1310943-Mount_Thielsen_from_Crater_Lake_National_Park", "state" : "OR", "attrs" : "west smoke", "style" : "width:95%;height:71%;" },
   { "dir" : "2021Trip", "file" : "400_N1310961-Crater_Lake_National_Park", "state" : "OR", "attrs" : "west fave sun", "style" : "width:95%;height:71%;" },
   { "dir" : "2021Trip", "file" : "401_N1310968-Crater_Lake_National_Park", "state" : "OR", "attrs" : "west", "style" : "width:95%;height:71%;" },
   { "dir" : "2021Trip", "file" : "402_N1310972-Crater_Lake_National_Park", "state" : "OR", "attrs" : "west flower", "style" : "height:95%;width:71%;" },
